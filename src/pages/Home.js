@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import GlobalStyles from '../styles/GlobalStyles';
+import { MainButton } from '../components/MainButton';
 
 
 
@@ -10,7 +11,8 @@ export function Home({ navigation }) {
   return (
 
     <View style={GlobalStyles.screenContainer}>
-      <Text>AQUIIIIIIIIIIIIIII</Text>
+      <MainButton title="Reclame aqui!"  />
+      <MainButton title="Minhas Reclamações"  />
 
 
     </View>

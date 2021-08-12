@@ -16,7 +16,7 @@ export function Routes(){
                 fontWeight: 'bold',
                 textAlign: 'center'
             }, } }/>
-            <Stack.Screen name='Home' component={Home}  options={{  title: 'Home' }}  />
+            <Stack.Screen name='Home' component={Home}  options={{ headerShown: false }}  />
             
         </Stack.Navigator>
     );
