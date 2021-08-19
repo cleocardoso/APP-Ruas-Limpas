@@ -20,7 +20,7 @@ export function MainButton(props) {
 const styles = StyleSheet.create({
 
   button: {
-    width: 340,
+    width: 310,
     height: 60,
     top: -50,
     left:-5,

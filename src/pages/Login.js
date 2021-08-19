@@ -12,6 +12,7 @@ export function Login({ navigation }) {
   const keyAsyncStorageLogado = '@RuasLimpas:logado'
   const [email, setEmail] = useState({ value: '', error: '' });
   const [senha, setSenha] = useState({ value: '', error: '' });
+  
   async function handleLogin() {
     const emailError = emailValidacao(email.value);
     const senhaError = senhaValidacao(senha.value);
@@ -43,7 +44,7 @@ export function Login({ navigation }) {
     <View style={GlobalStyles.screenContainer}>
       <Image style={styles.imagem} source={require('../imgs/R.png')} />
 
-      <Input
+      <Input 
         placeholder="E-mail"
         value={email.value}
         onChangeText={text => setEmail({ value: text, error: '' })}
@@ -62,7 +63,9 @@ export function Login({ navigation }) {
         secureTextEntry={true}
       />
 
-      <MainButton title="Entrar" onPress={handleLogin} />
+      <View style={styles.entrar}>
+        <MainButton title="Entrar" onPress={handleLogin} />
+      </View>
 
       <TouchableOpacity
         style={styles.button}
@@ -70,7 +73,7 @@ export function Login({ navigation }) {
         <Text style={styles.text}>Cadastre-se</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button2}>
-        <Text style={styles.text1}>Esqueci a Senha?</Text>
+        <Text style={styles.text1}>Esqueceu Senha?</Text>
       </TouchableOpacity>
     </View>
   );
@@ -96,9 +99,9 @@ const styles = StyleSheet.create({
   button: {
     width: 150,
     height: 30,
-    left: -115,
+    left: -15,
     borderRadius: 5,
-    top: -30,
+    top: 10,
   },
 
   button2: {
@@ -116,9 +119,20 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   text1: {
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: 'bold',
     color: '#5CC6BA',
     textAlign: 'center',
+    top: -95,
+    left: -10,
+
+  },
+  entrar: {
+    left: 5,
+    top: 15,
+    alignContent: 'center',
+    justifyContent: 'center',
+    borderRadius: 5,
+
   },
 });

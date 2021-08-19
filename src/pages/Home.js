@@ -8,10 +8,14 @@ import { MainButton } from '../components/MainButton';
 
 export function Home({ navigation }) {
 
+  async function Reclame() {
+    navigation.navigate('Reclame')
+  }
+
   return (
 
     <View style={GlobalStyles.screenContainer}>
-      <MainButton title="Reclame aqui!"  />
+      <MainButton title="Reclame aqui!"    onPress={Reclame} />
       <MainButton title="Minhas Reclamações"  />
 
 
