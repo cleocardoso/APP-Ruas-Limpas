@@ -20,7 +20,7 @@ export function Reclame() {
     await AsyncStorage.clear();
   }
 
-   /* function handlePicker () {
+  /*  function handlePicker () {
     ImagePicker.showImagePicker({}, (response) => {
       console.log('Response = ', response);
 
@@ -35,8 +35,8 @@ export function Reclame() {
         // here we can call a API to upload image on server
       }
     });
-  }; */
-  function imagePickerCallback(data) {
+  };  */
+    function imagePickerCallback(data) {
         console.log(data)
   }
 

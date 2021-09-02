@@ -12,13 +12,14 @@ export function Home({ navigation }) {
     navigation.navigate('Reclame')
   }
 
+  async function ListarReclame() {
+    navigation.navigate('ListarReclame')
+  }
   return (
 
     <View style={GlobalStyles.screenContainer}>
       <MainButton title="Reclame aqui!"    onPress={Reclame} />
-      <MainButton title="Minhas Reclamações"  />
-
-
+      <MainButton title="Minhas Reclamações!"  onPress={ListarReclame} />
     </View>
 
   );
