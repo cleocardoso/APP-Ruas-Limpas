@@ -5,6 +5,8 @@ import GlobalStyles from '../styles/GlobalStyles';
 import { MainButton } from '../components/MainButton';
 import api from '../services/Api'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Avatar } from 'react-native-elements';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
 
 export function Cadastro({ navigation }) {
@@ -38,12 +40,13 @@ export function Cadastro({ navigation }) {
             const headers = new Headers();
             headers.append("Content-Type", "application/json")
             headers.append("Accept", 'application/json')
+
             const api = await fetch('https://apiruaslimpas.herokuapp.com/api/usuarios/', {
                 method: 'POST',
                 headers: headers,
                 body: JSON.stringify(req)
             })
-           
+
 
             try {
                 await AsyncStorage.setItem(keyAsyncStorage, JSON.stringify(vetData));
@@ -70,7 +73,7 @@ export function Cadastro({ navigation }) {
         try {
             const retorno = await AsyncStorage.getItem(keyAsyncStorage);
             const dadosCadastros = await JSON.parse(retorno)
-            console.log('loadData -> ', dadosCadastros);
+            //console.log('loadData -> ', dadosCadastros);
             setCadastros(dadosCadastros || []);
         } catch (error) {
             Alert.alert("Erro na leitura  dos contatos");
@@ -81,14 +84,30 @@ export function Cadastro({ navigation }) {
         //clear()/
         loadData();
     }, []);
-
+    function imagePickerCallback(data) {
+        console.log(data)
+  }
 
     return (
 
-        <View style={GlobalStyles.screenContainer}>
+        <View style={GlobalStyles.screenContainer2}>
             {/*<Text style={styles.TextTitle}>Cadastro</Text>*/}
             <ScrollView>
                 <View style={styles.container}>
+                    <Avatar
+                        size={120}
+                        rounded
+                        icon={{ name: 'user', type: 'font-awesome' }}
+                        onPress={() => launchImageLibrary({}, imagePickerCallback )}
+                        activeOpacity={0.7}
+                        containerStyle={{ flex: 2, marginBottom: 120, top: 70, marginLeft: -20, marginTop: -115 }}
+                        source={{
+                            uri:
+                                'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+                        }}
+                    >
+                    </Avatar>
+                    <Text style={styles.perfil}>Imagem do perfil</Text>
                     <Input placeholder="Nome" value={user} onChangeText={(e) => setUser(e)} />
                     <Input placeholder="Sobrenome" value={sobreNome} onChangeText={(e) => setSobreNome(e)} />
                     <Input placeholder="Cidade" value={cidade} onChangeText={(e) => setCidade(e)} />
@@ -130,6 +149,14 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         top: -40,
         left: -95,
+
+    },
+    perfil: {
+        fontSize: 15,
+        color: '#5CC6BA',
+        fontWeight: 'bold',
+        top: -40,
+        left:-10,
 
     },
     TextTitle: {

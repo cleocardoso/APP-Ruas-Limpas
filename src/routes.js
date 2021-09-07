@@ -13,12 +13,13 @@ export function Routes() {
         <Stack.Navigator>
             <Stack.Screen name='login' component={Login} options={{ headerShown: false }} />
             <Stack.Screen name='Cadastro' component={Cadastro} options={{
-                headerTitleAlign: 'center',   title: 'Cadastro', headerTitleStyle: {
+                 title: 'Cadastre-se', headerTitleStyle: {
 
                     fontSize: 25,
                     color: '#5CC6BA',
                     fontWeight: 'bold',
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    left:-90
                 },
             }} />
             <Stack.Screen name='Home' component={Home} options={{ headerShown: false }} />

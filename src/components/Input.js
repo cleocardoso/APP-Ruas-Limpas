@@ -27,8 +27,8 @@ const styles = StyleSheet.create({
     marginRight: 12
   },
   inputText: {
-    flex: 1,
-    height: '100%',
+    width: 300,
+    height: 60,
     backgroundColor: '#F1F5F4',
     paddingLeft: 20,
     fontSize: 17,

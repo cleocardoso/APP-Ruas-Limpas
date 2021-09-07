@@ -20,11 +20,11 @@ export function MainButton(props) {
 const styles = StyleSheet.create({
 
   button: {
-    width: 310,
+    width: 300,
     height: 60,
-    top: -50,
+    top: -60,
     left:-5,
-    borderRadius: 5,
+    borderRadius: 10,
     backgroundColor: '#5CC6BA',
     alignContent:'center'
   },

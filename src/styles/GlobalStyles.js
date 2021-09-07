@@ -23,6 +23,15 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center' 
     },
+    screenContainer2: {
+        flex: 1,
+        paddingBottom: 20,
+        paddingLeft: 20,
+        paddingRight: 10,
+        backgroundColor: '#fff',
+        justifyContent: 'center',
+        alignItems: 'center' 
+    },
 
     title: {
         fontSize: 30,
