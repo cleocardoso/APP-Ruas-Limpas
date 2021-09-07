@@ -3,16 +3,16 @@ import { StyleSheet, Text, Alert, View, Keyboard, ScrollView } from 'react-nativ
 import { Input } from '../components/Input';
 import GlobalStyles from '../styles/GlobalStyles';
 import { MainButton } from '../components/MainButton';
-
+import api from '../services/Api'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export function Cadastro({ navigation }) {
-    const keyAsyncStorage = "@RuasLimpas:cadastros";
+    const keyAsyncStorage = "@RuasLimpas:cadastrando";
 
     const [cadastros, setCadastros] = useState([]);
     const [user, setUser] = useState('');
-    const [sobrenome, setSobrenome] = useState('');
+    const [sobreNome, setSobreNome] = useState('');
     const [cidade, setCidade] = useState('');
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
@@ -22,33 +22,53 @@ export function Cadastro({ navigation }) {
         await AsyncStorage.clear();
     }
 
+
     async function salvarCadastro() {
-        const data = {
-            id: String(new Date().getTime()),
-            name: user,
-            sobrenome: sobrenome,
-            cidade: cidade,
-            email: email,
-            senha: senha,
-
-        }
-        const vetData = [...cadastros, data]
-
         try {
-            await AsyncStorage.setItem(keyAsyncStorage, JSON.stringify(vetData));
-            navigation.navigate('Home');
+
+            const data = {
+                id: String(new Date().getTime()),
+                name: user,
+                sobreNome: sobreNome,
+                cidade: cidade,
+                email: email,
+                senha: senha,
+
+            }
+            const vetData = [...cadastros, data]
+            const req = {
+                nome: user,
+                sobreNome,
+                cidade,
+                email,
+                senha,
+                active: false
+            }
+            const  api = await fetch('https://apiruaslimpas.herokuapp.com/api/usuarios/', {
+                method: 'POST',
+                body: JSON.stringify(req)
+            })
+            
+    
+            try {
+                await AsyncStorage.setItem(keyAsyncStorage, JSON.stringify(vetData));
+                navigation.navigate('Home');
+            } catch (error) {
+                Alert.alert("Erro ao salvar Cadastro");
+            }
+
+            Keyboard.dismiss();
+
+            setUser("");
+            setSobreNome("");
+            setCidade("");
+            setEmail("");
+            setSenha("");
+            loadData();
         } catch (error) {
-            Alert.alert("Erro ao salvar Cadastro");
+            console.log(error)
         }
 
-        Keyboard.dismiss();
-
-        setUser("");
-        setSobrenome("");
-        setCidade("");
-        setEmail("");
-        setSenha("");
-        loadData();
 
     }
     async function loadData() {
@@ -69,13 +89,13 @@ export function Cadastro({ navigation }) {
 
 
     return (
-    
+
         <View style={GlobalStyles.screenContainer}>
             {/*<Text style={styles.TextTitle}>Cadastro</Text>*/}
             <ScrollView>
                 <View style={styles.container}>
                     <Input placeholder="Nome" value={user} onChangeText={(e) => setUser(e)} />
-                    <Input placeholder="Sobrenome" value={sobrenome} onChangeText={(e) => setSobrenome(e)} />
+                    <Input placeholder="Sobrenome" value={sobreNome} onChangeText={(e) => setSobreNome(e)} />
                     <Input placeholder="Cidade" value={cidade} onChangeText={(e) => setCidade(e)} />
                     <Input placeholder="E-mail" value={email} onChangeText={(e) => setEmail(e)} />
                     <Input placeholder="Senha" secureTextEntry={true} value={senha} onChangeText={(e) => setSenha(e)} />
