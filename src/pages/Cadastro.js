@@ -25,17 +25,6 @@ export function Cadastro({ navigation }) {
 
     async function salvarCadastro() {
         try {
-
-            const data = {
-                id: String(new Date().getTime()),
-                name: user,
-                sobreNome: sobreNome,
-                cidade: cidade,
-                email: email,
-                senha: senha,
-
-            }
-            const vetData = [...cadastros, data]
             const req = {
                 nome: user,
                 sobreNome,
@@ -44,12 +33,18 @@ export function Cadastro({ navigation }) {
                 senha,
                 active: false
             }
-            const  api = await fetch('https://apiruaslimpas.herokuapp.com/api/usuarios/', {
+            const vetData = [...cadastros, req]
+
+            const headers = new Headers();
+            headers.append("Content-Type", "application/json")
+            headers.append("Accept", 'application/json')
+            const api = await fetch('https://apiruaslimpas.herokuapp.com/api/usuarios/', {
                 method: 'POST',
+                headers: headers,
                 body: JSON.stringify(req)
             })
-            
-    
+           
+
             try {
                 await AsyncStorage.setItem(keyAsyncStorage, JSON.stringify(vetData));
                 navigation.navigate('Home');
