@@ -24,9 +24,10 @@ export function Routes() {
             }} />
             <Stack.Screen name='Home' component={Home} options={{ headerShown: false }} />
             <Stack.Screen name='Reclame' component={Reclame} options={{
-                title: 'Adicionar Reclamação', headerTitleStyle: {
+                title: 'Reclamação', headerTitleStyle: {
                     color: '#5CC6BA',
                     fontSize: 25,
+                    left:-80,
                     fontWeight: 'bold',
                     textAlign: 'center'
 

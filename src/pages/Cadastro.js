@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, Alert, View, Keyboard, ScrollView } from 'react-native';
+import { StyleSheet, Text,Image, Alert, View, Keyboard, ScrollView } from 'react-native';
 import { Input } from '../components/Input';
 import GlobalStyles from '../styles/GlobalStyles';
 import { MainButton } from '../components/MainButton';
@@ -11,15 +11,22 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
 export function Cadastro({ navigation }) {
     const keyAsyncStorage = "@RuasLimpas:cadastrando";
-
+    console.log("Registro Aqui...")
     const [cadastros, setCadastros] = useState([]);
     const [user, setUser] = useState('');
     const [sobreNome, setSobreNome] = useState('');
     const [cidade, setCidade] = useState('');
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
+    const [foto, setFoto] = useState('');
 
 
+    async function clear() {
+        await AsyncStorage.clear();
+    }
+
+
+   
     async function clear() {
         await AsyncStorage.clear();
     }
@@ -84,30 +91,15 @@ export function Cadastro({ navigation }) {
         //clear()/
         loadData();
     }, []);
-    function imagePickerCallback(data) {
-        console.log(data)
-  }
 
     return (
 
         <View style={GlobalStyles.screenContainer2}>
-            {/*<Text style={styles.TextTitle}>Cadastro</Text>*/}
+             
             <ScrollView>
                 <View style={styles.container}>
-                    <Avatar
-                        size={120}
-                        rounded
-                        icon={{ name: 'user', type: 'font-awesome' }}
-                        onPress={() => launchImageLibrary({}, imagePickerCallback )}
-                        activeOpacity={0.7}
-                        containerStyle={{ flex: 2, marginBottom: 120, top: 70, marginLeft: -20, marginTop: -115 }}
-                        source={{
-                            uri:
-                                'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-                        }}
-                    >
-                    </Avatar>
-                    <Text style={styles.perfil}>Imagem do perfil</Text>
+                
+                    
                     <Input placeholder="Nome" value={user} onChangeText={(e) => setUser(e)} />
                     <Input placeholder="Sobrenome" value={sobreNome} onChangeText={(e) => setSobreNome(e)} />
                     <Input placeholder="Cidade" value={cidade} onChangeText={(e) => setCidade(e)} />

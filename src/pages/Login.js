@@ -6,13 +6,13 @@ import { MainButton } from '../components/MainButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { emailValidacao } from '../validacao/emailvalidacao';
 import { senhaValidacao } from '../validacao/senhaValidacao';
-
+import AntDesign from 'react-native-vector-icons/AntDesign';
 export function Login({ navigation }) {
   const keyAsyncStorage = '@RuasLimpas:cadastros';
   const keyAsyncStorageLogado = '@RuasLimpas:logado'
   const [email, setEmail] = useState({ value: '', error: '' });
   const [senha, setSenha] = useState({ value: '', error: '' });
-  
+
   async function handleLogin() {
     const emailError = emailValidacao(email.value);
     const senhaError = senhaValidacao(senha.value);
@@ -44,7 +44,7 @@ export function Login({ navigation }) {
     <View style={GlobalStyles.screenContainer}>
       <Image style={styles.imagem} source={require('../imgs/R.png')} />
 
-      <Input 
+      <Input
         placeholder="E-mail"
         value={email.value}
         onChangeText={text => setEmail({ value: text, error: '' })}
@@ -62,18 +62,21 @@ export function Login({ navigation }) {
         errorText={senha.error}
         secureTextEntry={true}
       />
+      <TouchableOpacity style={styles.button2}>
+        <Text style={styles.text1}>Esqueceu Senha?</Text>
+      </TouchableOpacity>
 
       <View style={styles.entrar}>
         <MainButton title="Entrar" onPress={handleLogin} />
       </View>
-
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate('Cadastro')}>
         <Text style={styles.text}>Cadastre-se</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button2}>
-        <Text style={styles.text1}>Esqueceu Senha?</Text>
+      <TouchableOpacity style={styles.buttonGoogleSocial} >
+        <AntDesign name="google" size={20} color="#5CC6BA" />
+        <Text style={styles.textButtonGoogle}>Login com Google</Text>
       </TouchableOpacity>
     </View>
   );
@@ -101,14 +104,14 @@ const styles = StyleSheet.create({
     height: 30,
     left: -15,
     borderRadius: 5,
-    top: 10,
+    top: -40,
   },
 
   button2: {
     width: 160,
     height: 30,
     left: 80,
-    top: -60,
+    top: 60,
     borderRadius: 5,
     alignContent: 'center',
   },
@@ -128,11 +131,30 @@ const styles = StyleSheet.create({
 
   },
   entrar: {
-    left: 5,
+    left: -5,
     top: 15,
     alignContent: 'center',
     justifyContent: 'center',
     borderRadius: 5,
 
   },
+  buttonGoogleSocial:{
+    marginTop: 50,
+    width: '90%',
+    height:60,
+    backgroundColor:'#ffffff',
+    borderRadius: 12,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    top:-80,
+    left:-10
+    
+},
+textButtonGoogle:{
+    color: '#5CC6BA',
+    fontSize: 18,
+    left:-40,
+    fontWeight: 'bold',
+}
 });

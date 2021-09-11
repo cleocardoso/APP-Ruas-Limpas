@@ -1,202 +1,243 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, TouchableOpacity, Keyboard, Image, View, Alert } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, ScrollView, Keyboard, Image, View, Alert, TextInput } from 'react-native';
 import { Input } from '../components/Input';
+import GlobalStyles from '../styles/GlobalStyles';
+import { MainButton } from '../components/MainButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import ImagePicker from 'react-native-image-picker';
+import { Checkbox } from 'react-native-paper';
+
 
 export function Reclame() {
 
   const keyAsyncStorage = "@RuasLimpas:reclamacoes";
-
+  //console.log("Reclame Aqui...")
+  
 
   const [rua, setRua] = useState('');
   const [bairro, setBairro] = useState('');
-  const [observacao, setObservacao] = useState('');
+  const [descricao, setDescricao] = useState('');
+  const [count, setCount] = useState(0)
   const [image, setImage] = useState(null);
+  const [categorias, setCategorias] = useState([])
   const [reclamacoes, setReclamacoes] = useState([]);
+
+  
+
+  useEffect(() => {
+    //loadData();
+    ;
+    loadCategorias().then(data =>{ 
+      setCategorias(data)
+    })
+  }, []);
+
+  useEffect(()=>{
+    console.log("Categorias -> ",categorias)
+  }, [categorias])
 
   async function clear() {
     await AsyncStorage.clear();
   }
 
-  /*  function handlePicker () {
-    ImagePicker.showImagePicker({}, (response) => {
-      console.log('Response = ', response);
+  function imagePickerCallback(foto) {
+    const { uri, type, fileName } = foto.assets[0];
+    setImage({ uri, type, fileName })
+  }
 
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      } else {
-        setImage({uri: response.uri});
-        // here we can call a API to upload image on server
+
+
+  async function salvarReclamacao() {
+    function getIDs(){
+      const ids = []
+      const array = categorias.filter((c) => c.checked)
+      for (let c of array){
+        ids.push(c.id)
       }
-    });
-  };  */
-    function imagePickerCallback(data) {
-        console.log(data)
+      return ids;
+    }
+    const data = {
+      //data_reclamacao,
+      rua,
+      bairro,
+      descricao,
+      //erimagem,
+      //usuario,
+      categorias: getIDs(),
+
+    }
+    /*const vetData = [...reclamacoes, data]
+
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json")
+    headers.append("Accept", 'application/json')
+
+    const api = await fetch('https://apiruaslimpas.herokuapp.com/api/reclamacoes/', {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(data)
+    })
+
+    console.log("AQUI->> status ->", api.status, await api.json())
+
+    try {
+      await AsyncStorage.setItem(keyAsyncStorage, JSON.stringify(vetData));
+    } catch (error) {
+      Alert.alert("Erro ao salvar Reclamação");
+    }
+    Keyboard.dismiss();
+    setRua("");
+    setBairro("");
+    setDescricao("");
+    loadData(); */  /*carega dados validos para tela */
+    console.log(data)
+    Alert.alert("Salvo com sucesso!");
   }
 
-  /* function imagePickerCallback(data) {
-    if (data.didCancel){
-      return;
+  async function loadData() {
+    try {
+      const retorno = await AsyncStorage.getItem(keyAsyncStorage);
+      const dadosReclamacoes = await JSON.parse(retorno)
+      console.log('loadData -> ', dadosReclamacoes);
+      setReclamacoes(dadosReclamacoes || []);
+    } catch (error) {
+      Alert.alert("Erro na leitura de dados!");
+    }
   }
 
-  if (data.error){
-    return;
-}
-
-if (!data.uri){
-  return;
+  async function loadCategorias() {
+    function isRepetion(array, categoria){
+      if (array.length === 0){
+        return false;
+      }
+      for (let c of array){
+        if (c.id === categoria.id){
+          return true;
+        }
+      }
+      return false;
+    }
+    const novoCategorias = []
+    const api = await fetch('https://apiruaslimpas.herokuapp.com/api/categorias/')
+    if (api.status === 200) {
+      const categoriasRes = await api.json()
+      for (let categoria of categoriasRes) {
+        const c = {
+          ...categoria,
+          checked: false
+        }
+        if (!isRepetion(novoCategorias, c)){
+          console.log("Categoria ",c)
+          novoCategorias.push(c)
+        }
+      }
+      console.log("Categorias ", novoCategorias)
+      
+    }
+    return novoCategorias
   }
 
-setImage(data);
- */
-
-async function salvarReclamacao() {
-  const data = {
-    id: String(new Date().getTime()),
-    rua: rua,
-    bairro: bairro,
-    observacao: observacao,
-
-  }
-  const vetData = [...reclamacoes, data]
-  try {
-    await AsyncStorage.setItem(keyAsyncStorage, JSON.stringify(vetData));
-  } catch (error) {
-    Alert.alert("Erro ao salvar Reclamação");
+   function onCategorias(index) {
+    const novoCategorias = set()
+    const categoria =  novoCategorias[index]
+    //console.log("before ", categoria)
+    categoria.checked = !categoria.checked
+    // setCategorias(categorias)
+    //console.log("alter ", categoria)
+    novoCategorias.splice(index, 1, categoria)
+   // setCategorias(() => novoCategorias)
+    setCategorias(novoCategorias)
   }
 
-
-
-
-  Keyboard.dismiss();
-  setRua("");
-  setBairro("");
-  setObservacao("");
-  loadData();   /*carega dados validos para tela */
-
-  Alert.alert("Enviada com sucesso!");
-}
-
-async function loadData() {
-  try {
-    const retorno = await AsyncStorage.getItem(keyAsyncStorage);
-    const dadosReclamacoes = await JSON.parse(retorno)
-    console.log('loadData -> ', dadosReclamacoes);
-    setReclamacoes(dadosReclamacoes || []);
-  } catch (error) {
-    Alert.alert("Erro na leitura de dados!");
+  function set(){
+    const newArray = new Array();
+    for (let c of categorias){
+      newArray.push(c)
+    }
+    return newArray;
   }
-}
-useEffect(() => {
-  loadData();
-}, []);
 
+  /*useEffect(()=>{ 
+    console.log("Categorias ",categorias)
+  }, [categorias])*/
 
+  
 
+  
 return (
-  <View style={styles.container} >
-    <Image style={styles.imagem} source={require('../imgs/R.png')} />
+    <View style={GlobalStyles.screenContainer2}>
+       <Image style={styles.imagem} source={require('../imgs/R.png')} />
+      <ScrollView>
+        <View style={styles.container}>
+          
+          <Input placeholder="Rua" value={rua} onChangeText={(e) => setRua(e)} />
+          <Input placeholder="Bairro" value={bairro} onChangeText={(e) => setBairro(e)} />
+          {categorias.map((categoria, index) =>
+            <View key={categoria.id + Math.floor(100 + Math.random() * 100000)} style={{margin: 5}}>
+                <View style={styles.contCheck}>
+                <Checkbox
+                  status={categoria.checked ? 'checked' : 'unchecked'}
+                  onPress={() => onCategorias(index)}
+                /><Text style={styles.texCategoria}>{categoria.nome}</Text>
+                </View>
+            </View>
+          )}
+          <View style={styles.textAreaContainer} >
+            <TextInput
+              style={styles.textArea}
+              placeholder="Observação"
+              placeholderTextColor="grey"
+              numberOfLines={10}
+              multiline={true}
+              value={descricao} onChangeText={x => setDescricao(x)}
+            />
+          </View>
 
-    <View style={styles.input}>
-      <Input placeholder="RUA" value={rua} onChangeText={(e) => setRua(e)} />
-      <Input placeholder="BAIRRO" value={bairro} onChangeText={(e) => setBairro(e)} />
-      <Input placeholder="COMENTE AQUI!" value={observacao} onChangeText={(e) => setObservacao(e)} />
+          <View>
+            <Text></Text>
+          </View>
+          <MainButton title="Enviar" onPress={salvarReclamacao} />
+
+        </View>
+      </ScrollView>
+
     </View>
-    <Image
-      source={{
-        uri: image
-          ? image.uri
-          : 'https://img2.gratispng.com/20180520/sqh/kisspng-computer-icons-symbol-photography-camera-5b01d7721532b4.0509521615268473460868.jpg'
-      }}
-      style={styles.camera}
 
-    />
-    <TouchableOpacity style={styles.btn_envio} onPress={() => launchImageLibrary({}, imagePickerCallback )}>
-      <Text style={styles.text}>Carregar Imagem</Text>
-    </TouchableOpacity>
-    <TouchableOpacity style={styles.btn} onPress={() => salvarReclamacao()}>
-      <Text style={styles.btn_text}>Enviar</Text>
-    </TouchableOpacity>
-  </View>
-);
-
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 10,
-    backgroundColor: "#FFFF"
+    top: 40,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   imagem: {
     width: 130,
     height: 100,
-    top: 0,
-    left: 120,
-  },
-  input: {
-    width: 300,
-    height: 50,
-    borderRadius: 5,
-    margin: 29,
-    justifyContent: 'center',
-    alignItems: 'center',
-    top: 100,
-  },
-  enviar: {
-    height: 30,
-    margin: 29,
-    justifyContent: 'center',
-    alignItems: 'center',
-    top: 95,
-    left: 10,
+    top: 10,
 
   },
-  btn: {
-    backgroundColor: '#5CC6BA',
-    marginTop: 40,
-    width: '80%',
-    height: 56,
-    left: 30,
-    top: 81, /*  quando adicionar um input basta aumentar o top para o botao descer */
-    borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
 
-  btn_text: {
-    color: 'white',
-    fontSize: 25,
-  },
-  camera: {
-    marginTop: 15,
-    width: '15%',
-    height: 45,
-    left: 34,
-    top: 130, /*  quando adicionar um input basta aumentar o top para o botao descer */
+  textAreaContainer: {
+    borderColor: '#5CC6BA',
+    borderWidth: 2,
+    top: -30,
+    borderRadius: 12,
+    left: -3
 
   },
-  btn_envio: {
-    backgroundColor: '#A9A9A9',
-    width: '60%',
-    height: 56,
-    left: 95,
-    top: 80, /*  quando adicionar um input basta aumentar o top para o botao descer */
-    borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-
+  textArea: {
+    height: 100,
+    width: 296,
+    fontSize: 17,
   },
-  text: {
-    color: '#000',
-    fontSize: 16,
-    padding: 22,
-    paddingTop: 14,
-    paddingLeft: 30
+  contCheck:{
+    flexDirection: 'row',
+    top:-50,
+    alignItems:"baseline"
   },
+  texCategoria:{
+    top:-2,
+  }
 });
