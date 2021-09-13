@@ -5,13 +5,14 @@ import GlobalStyles from '../styles/GlobalStyles';
 import { MainButton } from '../components/MainButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Checkbox } from 'react-native-paper';
-
+import { useFormik } from 'formik'
+import * as yup from 'yup'
 
 export function Reclame() {
 
   const keyAsyncStorage = "@RuasLimpas:reclamacoes";
   //console.log("Reclame Aqui...")
-  
+
 
   const [rua, setRua] = useState('');
   const [bairro, setBairro] = useState('');
@@ -21,18 +22,42 @@ export function Reclame() {
   const [categorias, setCategorias] = useState([])
   const [reclamacoes, setReclamacoes] = useState([]);
 
-  
+  const initialFormState = {
+    rua: '',
+    bairro: '',
+    /*  descricao: '',
+     categorias: '', */
+
+  }
+
+  const userSchema = yup.object().shape({
+    rua: yup.string().required('Informe nome da rua!'),
+    bairro: yup.string().required('Informe nome do bairro!'),
+    /* descricao: yup.string().required('Descrição Obrigatório!'),
+    categorias: yup.string().email().required('Informe uma categoria!'), */
+
+
+  });
+
+  const formik = useFormik({
+    initialValues: initialFormState,
+    validationSchema: userSchema,
+    onSubmit: async (values) => {
+      await salvarReclamacao(values.rua.trim(), values.bairro.trim())
+    },
+  })
+
 
   useEffect(() => {
     //loadData();
     ;
-    loadCategorias().then(data =>{ 
+    loadCategorias().then(data => {
       setCategorias(data)
     })
   }, []);
 
-  useEffect(()=>{
-    console.log("Categorias -> ",categorias)
+  useEffect(() => {
+    console.log("Categorias -> ", categorias)
   }, [categorias])
 
   async function clear() {
@@ -46,11 +71,11 @@ export function Reclame() {
 
 
 
-  async function salvarReclamacao() {
-    function getIDs(){
+  async function salvarReclamacao(rua, bairro) {
+    function getIDs() {
       const ids = []
       const array = categorias.filter((c) => c.checked)
-      for (let c of array){
+      for (let c of array) {
         ids.push(c.id)
       }
       return ids;
@@ -90,6 +115,8 @@ export function Reclame() {
     setDescricao("");
     loadData(); */  /*carega dados validos para tela */
     console.log(data)
+    console.log(reclamacoes)
+
     Alert.alert("Salvo com sucesso!");
   }
 
@@ -105,12 +132,12 @@ export function Reclame() {
   }
 
   async function loadCategorias() {
-    function isRepetion(array, categoria){
-      if (array.length === 0){
+    function isRepetion(array, categoria) {
+      if (array.length === 0) {
         return false;
       }
-      for (let c of array){
-        if (c.id === categoria.id){
+      for (let c of array) {
+        if (c.id === categoria.id) {
           return true;
         }
       }
@@ -125,32 +152,32 @@ export function Reclame() {
           ...categoria,
           checked: false
         }
-        if (!isRepetion(novoCategorias, c)){
-          console.log("Categoria ",c)
+        if (!isRepetion(novoCategorias, c)) {
+          console.log("Categoria ", c)
           novoCategorias.push(c)
         }
       }
       console.log("Categorias ", novoCategorias)
-      
+
     }
     return novoCategorias
   }
 
-   function onCategorias(index) {
+  function onCategorias(index) {
     const novoCategorias = set()
-    const categoria =  novoCategorias[index]
+    const categoria = novoCategorias[index]
     //console.log("before ", categoria)
     categoria.checked = !categoria.checked
     // setCategorias(categorias)
     //console.log("alter ", categoria)
     novoCategorias.splice(index, 1, categoria)
-   // setCategorias(() => novoCategorias)
+    // setCategorias(() => novoCategorias)
     setCategorias(novoCategorias)
   }
 
-  function set(){
+  function set() {
     const newArray = new Array();
-    for (let c of categorias){
+    for (let c of categorias) {
       newArray.push(c)
     }
     return newArray;
@@ -160,25 +187,33 @@ export function Reclame() {
     console.log("Categorias ",categorias)
   }, [categorias])*/
 
-  
 
-  
-return (
-    <View style={GlobalStyles.screenContainer2}>
-       <Image style={styles.imagem} source={require('../imgs/R.png')} />
+
+
+  return (
+    <View style={GlobalStyles.screenContainer2}>    
       <ScrollView>
         <View style={styles.container}>
-          
-          <Input placeholder="Rua" value={rua} onChangeText={(e) => setRua(e)} />
-          <Input placeholder="Bairro" value={bairro} onChangeText={(e) => setBairro(e)} />
+          <Input placeholder="Rua" value={formik.values.rua} errors={
+            formik.touched.rua && formik.errors.rua && (
+              <Text style={styles.error}>{formik.errors.rua}</Text>
+            )
+          } onChangeText={formik.handleChange('rua')} />
+
+          <Input placeholder="Bairro" value={formik.values.bairro} errors={
+            formik.touched.bairro && formik.errors.bairro && (
+              <Text style={styles.error}>{formik.errors.bairro}</Text>
+            )
+          } onChangeText={formik.handleChange('bairro')} />
+
           {categorias.map((categoria, index) =>
-            <View key={categoria.id + Math.floor(100 + Math.random() * 100000)} style={{margin: 5}}>
-                <View style={styles.contCheck}>
+            <View key={categoria.id + Math.floor(100 + Math.random() * 100000)} style={{ margin: 5 }}>
+              <View style={styles.contCheck}>
                 <Checkbox
                   status={categoria.checked ? 'checked' : 'unchecked'}
                   onPress={() => onCategorias(index)}
                 /><Text style={styles.texCategoria}>{categoria.nome}</Text>
-                </View>
+              </View>
             </View>
           )}
           <View style={styles.textAreaContainer} >
@@ -188,16 +223,19 @@ return (
               placeholderTextColor="grey"
               numberOfLines={10}
               multiline={true}
-              value={descricao} onChangeText={x => setDescricao(x)}
+              value={formik.values.descricao} errors={
+                formik.touched.descricao && formik.errors.descricao && (
+                  <Text style={styles.error}>{formik.errors.descricao}</Text>
+                )
+              } onChangeText={formik.handleChange('descricao')}
             />
           </View>
-
-          <View>
-            <Text></Text>
-          </View>
-          <MainButton title="Enviar" onPress={salvarReclamacao} />
+        
 
         </View>
+        <View  style={styles.view_btn}>
+            <MainButton title="Enviar" onPress={formik.handleSubmit} />
+          </View>
       </ScrollView>
 
     </View>
@@ -207,7 +245,7 @@ return (
 
 const styles = StyleSheet.create({
   container: {
-    top: 40,
+    top: 52,
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
@@ -232,12 +270,25 @@ const styles = StyleSheet.create({
     width: 296,
     fontSize: 17,
   },
-  contCheck:{
+  contCheck: {
     flexDirection: 'row',
-    top:-50,
-    alignItems:"baseline"
+    top: -50,
+    alignItems: "baseline"
   },
-  texCategoria:{
-    top:-2,
-  }
+  texCategoria: {
+    top: -2,
+  },
+  error: {
+    fontSize: 15,
+    color: 'red',
+    top: 36,
+    height: -40,
+    left: -296
+  },
+  view_btn: {
+    left:12,
+    top: 66,
+
+},
+
 });

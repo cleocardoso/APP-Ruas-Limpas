@@ -2,14 +2,16 @@ import React from 'react';
 import { StyleSheet, View, TextInput} from 'react-native';
 
 
-export function Input({ placeholder, onPress, onChangeText, ...rest }) {
+export function Input({ placeholder, onPress, onChangeText, errors, ...rest }) {
   return (
     <View style={styles.container}>
       <TextInput style={styles.inputText} placeholder={placeholder}
         {...rest}
         onChangeText={onChangeText}
       />
-
+     {errors && (
+        errors
+     )}
     </View>
   );
 }
@@ -35,7 +37,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 4,
     borderWidth: 2,
-    borderColor: '#5CC6BA'
+    borderColor: '#5CC6BA',
   },
 
 });

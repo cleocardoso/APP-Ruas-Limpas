@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text,Image, Alert, View, Keyboard, ScrollView } from 'react-native';
+import { StyleSheet, Text, Image, Alert, View, Keyboard, ScrollView, TouchableOpacity } from 'react-native';
 import { Input } from '../components/Input';
 import GlobalStyles from '../styles/GlobalStyles';
 import { MainButton } from '../components/MainButton';
@@ -7,7 +7,9 @@ import api from '../services/Api'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Avatar } from 'react-native-elements';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useFormik } from 'formik'
+import * as yup from 'yup'
 
 export function Cadastro({ navigation }) {
     const keyAsyncStorage = "@RuasLimpas:cadastrando";
@@ -20,19 +22,38 @@ export function Cadastro({ navigation }) {
     const [senha, setSenha] = useState('');
     const [foto, setFoto] = useState('');
 
+    const initialFormState = {
+        user: '',
+        sobreNome: '',
+        cidade: '',
+        email: '',
+        senha: ''
+    }
+
+    const userSchema = yup.object().shape({
+        user: yup.string().required('Nome é obrigatório!'),
+        sobreNome: yup.string().required('Sobrenome Obrigatório!'),
+        cidade: yup.string().required('Cidade Obrigatório!'),
+        email: yup.string().email().required('O e-mail é obrigatório!'),
+        senha: yup.string().required('A senha é obrigatória!'),
+
+    });
+
+    const formik = useFormik({
+        initialValues: initialFormState,
+        validationSchema: userSchema,
+        onSubmit: async (values) => {
+            await salvarCadastro(values.user.trim(), values.sobreNome.trim(), values.cidade.trim(), values.email.trim(), values.senha.trim())
+        },
+    })
 
     async function clear() {
         await AsyncStorage.clear();
     }
-
-
-   
     async function clear() {
         await AsyncStorage.clear();
     }
-
-
-    async function salvarCadastro() {
+    async function salvarCadastro(user, sobreNome, cidade, email, senha) {
         try {
             const req = {
                 nome: user,
@@ -53,7 +74,7 @@ export function Cadastro({ navigation }) {
                 headers: headers,
                 body: JSON.stringify(req)
             })
-
+            console.log(req)
 
             try {
                 await AsyncStorage.setItem(keyAsyncStorage, JSON.stringify(vetData));
@@ -93,26 +114,49 @@ export function Cadastro({ navigation }) {
     }, []);
 
     return (
+        < View style={GlobalStyles.screenContainer2} >
 
-        <View style={GlobalStyles.screenContainer2}>
-             
             <ScrollView>
                 <View style={styles.container}>
-                
+                   
+                        <Input placeholder="Nome" value={formik.values.user} errors={
+                            formik.touched.user && formik.errors.user && (
+                                <Text style={styles.error}>{formik.errors.user}</Text>
+                            )
+
+                        } onChangeText={formik.handleChange('user')} />
+
+                        <Input placeholder="Sobrenome" value={formik.values.sobreNome} errors={
+                            formik.touched.sobreNome && formik.errors.sobreNome && (
+                                <Text style={styles.error}>{formik.errors.sobreNome}</Text>
+                            )
+                        } onChangeText={formik.handleChange('sobreNome')} />
+
+                        <Input placeholder="Cidade" value={formik.values.cidade} errors={
+                            formik.touched.cidade && formik.errors.cidade && (
+                                <Text style={styles.error}>{formik.errors.cidade}</Text>
+                            )
+                        } onChangeText={formik.handleChange('cidade')} />
+
+                        <Input placeholder="E-mail" value={formik.values.email} errors={
+                            formik.touched.email && formik.errors.email && (
+                                <Text style={styles.error}>{formik.errors.email}</Text>
+                            )} onChangeText={formik.handleChange('email')} />
+
+                        <Input placeholder="Senha" secureTextEntry={true} value={formik.values.senha} errors={
+                            formik.touched.senha && formik.errors.senha && (
+                                <Text style={styles.error}>{formik.errors.senha}</Text>
+                            )} onChangeText={formik.handleChange('senha')} />
                     
-                    <Input placeholder="Nome" value={user} onChangeText={(e) => setUser(e)} />
-                    <Input placeholder="Sobrenome" value={sobreNome} onChangeText={(e) => setSobreNome(e)} />
-                    <Input placeholder="Cidade" value={cidade} onChangeText={(e) => setCidade(e)} />
-                    <Input placeholder="E-mail" value={email} onChangeText={(e) => setEmail(e)} />
-                    <Input placeholder="Senha" secureTextEntry={true} value={senha} onChangeText={(e) => setSenha(e)} />
-
-
-                    <MainButton title="Salvar" onPress={salvarCadastro} />
-
+                   
                 </View>
+                <View style={styles.view_btn}>
+                <MainButton title="Salvar" onPress={formik.handleSubmit} />
+            </View>
             </ScrollView>
+           
 
-        </View>
+        </View >
 
     );
 }
@@ -148,7 +192,7 @@ const styles = StyleSheet.create({
         color: '#5CC6BA',
         fontWeight: 'bold',
         top: -40,
-        left:-10,
+        left: -10,
 
     },
     TextTitle: {
@@ -163,5 +207,22 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-    }
+    },
+    error: {
+        fontSize: 15,
+        color: 'red',
+        top: 36,
+        height: -40,
+        left: -296
+    },
+
+    view_btn: {
+        left:12,
+        top: 60,
+
+    },
+    
+
+
+
 })

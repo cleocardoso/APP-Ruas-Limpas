@@ -23,10 +23,11 @@ const styles = StyleSheet.create({
     width: 300,
     height: 60,
     top: -60,
-    left:-5,
+    left:-6,
     borderRadius: 10,
     backgroundColor: '#5CC6BA',
-    alignContent:'center'
+    alignContent:'center', 
+    
   },
   text: {
     fontSize: 24,
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
     marginTop:10,
     textAlign: 'center',
     color:'#FFFFFF'
-  }
+  },
 
 
 })

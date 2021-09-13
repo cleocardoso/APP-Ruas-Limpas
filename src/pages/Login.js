@@ -4,11 +4,13 @@ import { Input } from '../components/Input';
 import GlobalStyles from '../styles/GlobalStyles';
 import { MainButton } from '../components/MainButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFormik } from 'formik'
+import * as yup from 'yup'
 import { emailValidacao } from '../validacao/emailvalidacao';
 import { senhaValidacao } from '../validacao/senhaValidacao';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 export function Login({ navigation }) {
-  const keyAsyncStorage = '@RuasLimpas:cadastros';
+  const keyAsyncStorage = "@RuasLimpas:cadastrando";
   const keyAsyncStorageLogado = '@RuasLimpas:logado'
   const [email, setEmail] = useState({ value: '', error: '' });
   const [senha, setSenha] = useState({ value: '', error: '' });
@@ -16,7 +18,7 @@ export function Login({ navigation }) {
   async function handleLogin() {
     const emailError = emailValidacao(email.value);
     const senhaError = senhaValidacao(senha.value);
-
+    console.log(email, ' ', senha)
     try {
       if (emailError || senhaError) {
         setEmail({ ...email, error: emailError });
@@ -26,7 +28,7 @@ export function Login({ navigation }) {
 
       const users =
         (await JSON.parse(await AsyncStorage.getItem(keyAsyncStorage))) || [];
-
+      console.log(users)
       if (users.length > 0) {
         const userAux = users.filter((u) => u.email === email.value && u.senha === senha.value)
         if (userAux.length > 0) {
