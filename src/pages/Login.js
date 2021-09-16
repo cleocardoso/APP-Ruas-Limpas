@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity, Image, View, Alert } from 'react-native';
 import { Input } from '../components/Input';
 import GlobalStyles from '../styles/GlobalStyles';
@@ -9,11 +9,15 @@ import * as yup from 'yup'
 import { emailValidacao } from '../validacao/emailvalidacao';
 import { senhaValidacao } from '../validacao/senhaValidacao';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { useAuth } from '../context/Auth';
+
+
 export function Login({ navigation }) {
   const keyAsyncStorage = "@RuasLimpas:cadastrando";
   const keyAsyncStorageLogado = '@RuasLimpas:logado'
   const [email, setEmail] = useState({ value: '', error: '' });
   const [senha, setSenha] = useState({ value: '', error: '' });
+  const { user, signIn, loadUserStorageDate } = useAuth()
 
   async function handleLogin() {
     const emailError = emailValidacao(email.value);
@@ -26,7 +30,7 @@ export function Login({ navigation }) {
         return;
       }
 
-      const users =
+      /*const users =
         (await JSON.parse(await AsyncStorage.getItem(keyAsyncStorage))) || [];
       console.log(users)
       if (users.length > 0) {
@@ -36,11 +40,26 @@ export function Login({ navigation }) {
           navigation.navigate('Home', { user: userAux[0] })
         }
 
+      }*/
+      signIn(email.value, senha.value)
+      if (Object.keys(user).length > 0) {
+        console.log('user ', user)
+        navigation.navigate('Home', { user: user })
       }
     } catch {
       Alert.alert("Erro na autenticação!");
     }
   }
+
+  useEffect(() => {
+    loadUserStorageDate((user) => {
+      console.log('LOGIN ', user)
+      if (Object.keys(user).length > 0) {
+        navigation.navigate('Home', { user: user })
+      }
+    })
+
+  }, [])
 
   return (
     <View style={GlobalStyles.screenContainer}>
@@ -140,23 +159,23 @@ const styles = StyleSheet.create({
     borderRadius: 5,
 
   },
-  buttonGoogleSocial:{
+  buttonGoogleSocial: {
     marginTop: 50,
     width: '90%',
-    height:60,
-    backgroundColor:'#ffffff',
+    height: 60,
+    backgroundColor: '#ffffff',
     borderRadius: 12,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    top:-80,
-    left:-10
-    
-},
-textButtonGoogle:{
+    top: -80,
+    left: -10
+
+  },
+  textButtonGoogle: {
     color: '#5CC6BA',
     fontSize: 18,
-    left:-40,
+    left: -40,
     fontWeight: 'bold',
-}
+  }
 });
