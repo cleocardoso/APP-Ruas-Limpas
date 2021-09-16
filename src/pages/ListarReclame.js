@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, Image, View, FlatList } from 'react-native';
 import ItemReclamacao from '../components/ItemReclamacao';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { useAuth } from '../context/Auth';
+import api from '../services/Api';
 
 export function ListarReclame() {
-  
+  const { user } = useAuth()
   const keyAsyncStorage = "@RuasLimpas:reclamacoes";
 
 
@@ -29,15 +30,18 @@ export function ListarReclame() {
 
 
   async function loadData() {
-    try {
+    /*try {
       const retorno = await AsyncStorage.getItem(keyAsyncStorage);
       const dadosReclamacoes = await JSON.parse(retorno)
       console.log('loadData -> ', dadosReclamacoes);
       setReclamacoes(dadosReclamacoes || []);
     } catch (error) {
       Alert.alert("Erro na leitura de dados!");
-    }
-    
+    }*/
+    console.log(user)
+    api.get('/api/reclamacoes/listaReclamacoes/?id=${user.id}').then((resp) => {
+      setReclamacoes(resp)
+    })
   }
   useEffect(() => {
     loadData();
@@ -74,3 +78,4 @@ const styles = StyleSheet.create({
   },
 
 });
+
