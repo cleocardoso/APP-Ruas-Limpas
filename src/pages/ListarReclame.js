@@ -9,7 +9,7 @@ export function ListarReclame() {
   const { user } = useAuth()
   const keyAsyncStorage = "@RuasLimpas:reclamacoes";
 
-
+  console.log("ListarReclame...")
   const [rua, setRua] = useState('');
   const [bairro, setBairro] = useState('');
   const [observacao, setObservacao] = useState('');
@@ -39,8 +39,11 @@ export function ListarReclame() {
       Alert.alert("Erro na leitura de dados!");
     }*/
     console.log(user)
-    api.get('/api/reclamacoes/listaReclamacoes/?id=${user.id}').then((resp) => {
-      setReclamacoes(resp)
+    api.get(`/api/reclamacoes/listaReclamacoes/?id=${1}`).then((resp) => {
+      console.log("REC ", resp.data)
+      setReclamacoes(resp.data)
+    }).catch((error)=>{
+      console.log('error ', error)
     })
   }
   useEffect(() => {
@@ -55,7 +58,7 @@ export function ListarReclame() {
         <FlatList data={reclamacoes}
           keyExtractor={item => item.id}
           renderItem={({ item, index }) => (
-            <ItemReclamacao status={item.status} observacao={item.observacao} />
+            <ItemReclamacao status={item.status} observacao={item.descricao} />
           )}
         />
 

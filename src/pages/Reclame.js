@@ -7,9 +7,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Checkbox } from 'react-native-paper';
 import { useFormik } from 'formik'
 import * as yup from 'yup'
+import { useAuth } from '../context/Auth';
 
 export function Reclame() {
-
+const { user } = useAuth()
   const keyAsyncStorage = "@RuasLimpas:reclamacoes";
   //console.log("Reclame Aqui...")
 
@@ -88,9 +89,9 @@ export function Reclame() {
       //erimagem,
       //usuario,
       categorias: getIDs(),
-
+      usuario: user.id
     }
-    /*const vetData = [...reclamacoes, data]
+    const vetData = [...reclamacoes, data]
 
     const headers = new Headers();
     headers.append("Content-Type", "application/json")
@@ -102,7 +103,7 @@ export function Reclame() {
       body: JSON.stringify(data)
     })
 
-    console.log("AQUI->> status ->", api.status, await api.json())
+    //console.log("AQUI->> status ->", api.status, await api.json())
 
     try {
       await AsyncStorage.setItem(keyAsyncStorage, JSON.stringify(vetData));
@@ -113,7 +114,7 @@ export function Reclame() {
     setRua("");
     setBairro("");
     setDescricao("");
-    loadData(); */  /*carega dados validos para tela */
+    loadData();  /*carega dados validos para tela */
     console.log(data)
     console.log(reclamacoes)
 
