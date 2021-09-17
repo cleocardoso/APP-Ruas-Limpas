@@ -10,7 +10,7 @@ import * as yup from 'yup'
 import { useAuth } from '../context/Auth';
 
 export function Reclame() {
-const { user } = useAuth()
+
   const keyAsyncStorage = "@RuasLimpas:reclamacoes";
   //console.log("Reclame Aqui...")
 
@@ -22,7 +22,8 @@ const { user } = useAuth()
   const [image, setImage] = useState(null);
   const [categorias, setCategorias] = useState([])
   const [reclamacoes, setReclamacoes] = useState([]);
-
+  const { user } = useAuth()
+  console.log("HOME ", user)
   const initialFormState = {
     rua: '',
     bairro: '',
@@ -57,9 +58,9 @@ const { user } = useAuth()
     })
   }, []);
 
-  useEffect(() => {
+  /*useEffect(() => {
     console.log("Categorias -> ", categorias)
-  }, [categorias])
+  }, [categorias])*/
 
   async function clear() {
     await AsyncStorage.clear();
@@ -86,10 +87,10 @@ const { user } = useAuth()
       rua,
       bairro,
       descricao,
-      //erimagem,
+      imagem: null,
       //usuario,
       categorias: getIDs(),
-      usuario: user.id
+      usuario: user.user.id
     }
     const vetData = [...reclamacoes, data]
 
@@ -101,9 +102,9 @@ const { user } = useAuth()
       method: 'POST',
       headers: headers,
       body: JSON.stringify(data)
-    })
+    }) 
 
-    //console.log("AQUI->> status ->", api.status, await api.json())
+    console.log("AQUI->> status ->", api.status)
 
     try {
       await AsyncStorage.setItem(keyAsyncStorage, JSON.stringify(vetData));

@@ -7,12 +7,13 @@ import React, {
 import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../services/Api'
-const AuthContext = createContext();
+const AuthContext = createContext({});
 
 function AuthProvider({ children }) {
     const [user, setUser] = useState({});
     const [isAdmin, setIsAdmin] = useState(false)
     const [userLoading, setUserLoading] = useState(true);
+    console.log("USER CONTEXT ", user)
 
     const userStorageKey = '@ifrndo:user';
 
@@ -30,21 +31,31 @@ function AuthProvider({ children }) {
     }
 
     useEffect(() => {
-        console.log("USER CONTEXT ", user)
+        //console.log("USER CONTEXT ", user)
     }, [user])
 
     //**Função para apagar usuário  */
     async function logout() {
-        setUser({});
-        await AsyncStorage.removeItem(userStorageKey);
+        //setUser({});
+        //await AsyncStorage.removeItem(userStorageKey);
     }
 
-    function loadUserStorageDate(functionAction) {
-        AsyncStorage.getItem(userStorageKey).then((resp)=>{
-            functionAction(resp)
-            setUser(resp);
+    async function loadUserStorageDate(functionAction) {
+       await AsyncStorage.getItem(userStorageKey)
+       .then((resp)=>{
+            let user = {}
+            user = JSON.parse(resp)
+            console.log(user)
+            functionAction(user)
+            setUser(user);
         })
+        //logout()
+        
     }
+
+    /*useEffect(()=>{
+        loadUserStorageDate()
+    }, [])*/
 
     return (
         <AuthContext.Provider value={{ user, signIn, logout, loadUserStorageDate, userLoading }}>

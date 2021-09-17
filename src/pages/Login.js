@@ -41,24 +41,27 @@ export function Login({ navigation }) {
         }
 
       }*/
-      signIn(email.value, senha.value)
-      if (Object.keys(user).length > 0) {
-        console.log('user ', user)
-        navigation.navigate('Home', { user: user })
-      }
-    } catch {
+      signIn(email.value, senha.value).then(() => {
+        console.log(user)
+        if (Object.keys(user).length > 0) {
+          console.log('user ', user)
+          navigation.navigate('Home', { user: user })
+        }
+      })
+
+    } catch (e) {
+      console.log(e)
       Alert.alert("Erro na autenticação!");
     }
   }
 
   useEffect(() => {
-    loadUserStorageDate((user) => {
+    loadUserStorageDate((user)=>{
       console.log('LOGIN ', user)
       if (Object.keys(user).length > 0) {
         navigation.navigate('Home', { user: user })
       }
     })
-
   }, [])
 
   return (

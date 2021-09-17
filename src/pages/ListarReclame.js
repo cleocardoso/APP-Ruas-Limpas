@@ -39,7 +39,7 @@ export function ListarReclame() {
       Alert.alert("Erro na leitura de dados!");
     }*/
     console.log(user)
-    api.get(`/api/reclamacoes/listaReclamacoes/?id=${1}`).then((resp) => {
+    api.get(`/api/solicitacoes/listaSolicitacoes/?id=${1}`).then((resp) => {
       console.log("REC ", resp.data)
       setReclamacoes(resp.data)
     }).catch((error)=>{
@@ -58,7 +58,7 @@ export function ListarReclame() {
         <FlatList data={reclamacoes}
           keyExtractor={item => item.id}
           renderItem={({ item, index }) => (
-            <ItemReclamacao status={item.status} observacao={item.descricao} />
+            <ItemReclamacao status={item.statusConcluido} observacao={item.reclamacoes.descricao} />
           )}
         />
 
