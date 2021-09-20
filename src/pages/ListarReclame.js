@@ -46,19 +46,26 @@ export function ListarReclame() {
       console.log('error ', error)
     })
   }
+
+  async function deletar(id) {
+    const newData = tarefas.filter(item => item.id != id);
+    await AsyncStorage.setItem(keyAsyncStorage, JSON.stringify(newData));
+  
+    await loadData();
+}
+
   useEffect(() => {
     loadData();
   }, []);
 
   return (
     <View style={styles.container} >
-      <Image style={styles.imagem} source={require('../imgs/R.png')} />
 
       <View>
         <FlatList data={reclamacoes}
           keyExtractor={item => item.id}
           renderItem={({ item, index }) => (
-            <ItemReclamacao status={item.statusConcluido} observacao={item.reclamacoes.descricao} />
+            <ItemReclamacao status={item.statusConcluido} data_reclamacao={item.reclamacoes.data_reclamacao}nome={item.reclamacoes.nome}observacao={item.reclamacoes.descricao} apagar={() => deletar(item.id)}/>
           )}
         />
 

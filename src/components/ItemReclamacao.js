@@ -1,87 +1,70 @@
 import React from 'react';
 
-import { View, Text, StyleSheet } from 'react-native';
-import Icon3 from 'react-native-vector-icons/AntDesign';
-
-import CheckBox from '../components/CheckBox';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 
-export default function ItemReclamacao(props) {
+
+
+export default function ItemReclamacao(props,onPress ) {
   console.log(props)
   return (
-    <View style={props.checked ? styles.boxConcluida : styles.container} >
-      <View style={styles.checkboxContainer}>
-        <CheckBox onPress={props.onChecked} isChecked={props.checked}/>
+    <View style={styles.container}>
+      <View style={styles.container1}>
+      <Text style={styles.text1}> Data:{props.data_reclamacao}</Text>
+      <Text style={styles.text1}> Status:{}</Text>
       </View>
-      <View>
-        <Text style={props.checked ? styles.concluida : styles.text} 
-         >{props.observacao}</Text>         
+      <View style={styles.container2}>
+      <Text style={styles.text1}> Categoria:{props.nome}</Text>
+      <Text style={styles.text1}> Observação: {props.observacao}</Text>
       </View>
-     
-
+        
+      <View style={styles.viewButton}>
+        <TouchableOpacity style={styles.button} onPress={props.apagar}>
+          <AntDesign name="delete" size={25} color={"#black"} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: 360,
-    height: 65,
-    top: 10,
-    padding: 10,
-    bottom: 0,
+    marginTop: 15,
+    width: '90%',
+    height: '90%',
+    left: 15,
+    backgroundColor: '#DEE4E4',
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#F4F4F4',
-    borderWidth: 1,
-    borderColor: '#B6B4B4',
-    margin: -1,
-    flex: 1,
-  },
-  boxConcluida: {
-    width: 360,
-    height: 65,
-    top: 10,
-    padding: 10,
-    bottom: 0,
-    flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#D3D3D3',
-    borderWidth: 1,
-    borderColor: '#B6B4B4',
-    margin: -1,
-    flex: 1,
+    borderRadius: 5,
   },
-  text: {
-    fontSize: 18,
-    color:'#808080',
-    margin:-19,
-    left:-150
+  text1: {
+    paddingLeft: 50,
+    fontSize: 17,
+    left: -50,
+    top: -30
+
+  },
+
+  button: {
+    padding: 15,
+    left: -20,
+    marginLeft: 10,
    
   },
-  IconStyle: {
-    left: 10,
-    fontSize: 30,
-    color:'#808080',
+  container2: {
+    flexDirection: 'column',
+    top:40,
+    left:-195
   },
-  checkboxContainer: {
-    flexDirection: "row",
-    marginBottom: 20,
-    top:10,
-    color:'#1DB863',
+  container1: {
+    flexDirection: 'row',
+    top:-20,
+    left:4
     
   },
-  checkbox: {
-    alignSelf: "center",
-    color:'#1DB863',
-    
-  },
-  concluida:{
-    color:'#1DB863',
-    fontSize: 19,
-    fontWeight: 'bold',
-}
+
 
 })
