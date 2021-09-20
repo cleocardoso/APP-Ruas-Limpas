@@ -4,7 +4,7 @@ export function emailValidacao(email) {
     return 'O email não pode estar vazio!';
   }
   if (!re.test(email)) {
-    return 'Opa! Precisamos de um endereço de e-mail válido!';
+    return 'Informe um endereço de e-mail válido!';
   }
   return '';
 }

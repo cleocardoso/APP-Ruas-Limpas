@@ -7,7 +7,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Checkbox } from 'react-native-paper';
 import { useFormik } from 'formik'
 import * as yup from 'yup'
-import { useAuth } from '../context/Auth';
 
 export function Reclame() {
 
@@ -22,21 +21,20 @@ export function Reclame() {
   const [image, setImage] = useState(null);
   const [categorias, setCategorias] = useState([])
   const [reclamacoes, setReclamacoes] = useState([]);
-  const { user } = useAuth()
-  console.log("HOME ", user)
+
   const initialFormState = {
     rua: '',
     bairro: '',
-    /*  descricao: '',
-     categorias: '', */
+    descricao: '',
+    /* categorias: '', */
 
   }
 
   const userSchema = yup.object().shape({
     rua: yup.string().required('Informe nome da rua!'),
     bairro: yup.string().required('Informe nome do bairro!'),
-    /* descricao: yup.string().required('Descrição Obrigatório!'),
-    categorias: yup.string().email().required('Informe uma categoria!'), */
+    descricao: yup.string().required('Descrição Obrigatória!'),
+    /*  categorias: yup.string().email().required('Informe uma categoria!'), */
 
 
   });
@@ -45,7 +43,7 @@ export function Reclame() {
     initialValues: initialFormState,
     validationSchema: userSchema,
     onSubmit: async (values) => {
-      await salvarReclamacao(values.rua.trim(), values.bairro.trim())
+      await salvarReclamacao(values.rua.trim(), values.bairro.trim(), values.descricao.trim())
     },
   })
 
@@ -58,9 +56,9 @@ export function Reclame() {
     })
   }, []);
 
-  /*useEffect(() => {
+  useEffect(() => {
     console.log("Categorias -> ", categorias)
-  }, [categorias])*/
+  }, [categorias])
 
   async function clear() {
     await AsyncStorage.clear();
@@ -73,7 +71,7 @@ export function Reclame() {
 
 
 
-  async function salvarReclamacao(rua, bairro) {
+  async function salvarReclamacao(rua, bairro, descricao) {
     function getIDs() {
       const ids = []
       const array = categorias.filter((c) => c.checked)
@@ -87,12 +85,12 @@ export function Reclame() {
       rua,
       bairro,
       descricao,
-      imagem: null,
+      //erimagem,
       //usuario,
       categorias: getIDs(),
-      usuario: user.user.id
+
     }
-    const vetData = [...reclamacoes, data]
+    /*const vetData = [...reclamacoes, data]
 
     const headers = new Headers();
     headers.append("Content-Type", "application/json")
@@ -102,9 +100,9 @@ export function Reclame() {
       method: 'POST',
       headers: headers,
       body: JSON.stringify(data)
-    }) 
+    })
 
-    console.log("AQUI->> status ->", api.status)
+    console.log("AQUI->> status ->", api.status, await api.json())
 
     try {
       await AsyncStorage.setItem(keyAsyncStorage, JSON.stringify(vetData));
@@ -115,7 +113,7 @@ export function Reclame() {
     setRua("");
     setBairro("");
     setDescricao("");
-    loadData();  /*carega dados validos para tela */
+    loadData(); */  /*carega dados validos para tela */
     console.log(data)
     console.log(reclamacoes)
 
@@ -190,24 +188,23 @@ export function Reclame() {
   }, [categorias])*/
 
 
-
-
   return (
-    <View style={GlobalStyles.screenContainer2}>    
-      <ScrollView>
-        <View style={styles.container}>
-          <Input placeholder="Rua" value={formik.values.rua} errors={
-            formik.touched.rua && formik.errors.rua && (
-              <Text style={styles.error}>{formik.errors.rua}</Text>
-            )
-          } onChangeText={formik.handleChange('rua')} />
+    <View style={styles.container}>
+      <View style={styles.input}>
+        <Input placeholder="Rua" value={formik.values.rua} errors={
+          formik.touched.rua && formik.errors.rua && (
+            <Text style={styles.error}>{formik.errors.rua}</Text>
+          )
+        } onChangeText={formik.handleChange('rua')} />
 
-          <Input placeholder="Bairro" value={formik.values.bairro} errors={
-            formik.touched.bairro && formik.errors.bairro && (
-              <Text style={styles.error}>{formik.errors.bairro}</Text>
-            )
-          } onChangeText={formik.handleChange('bairro')} />
+        <Input placeholder="Bairro" value={formik.values.bairro} errors={
+          formik.touched.bairro && formik.errors.bairro && (
+            <Text style={styles.error}>{formik.errors.bairro}</Text>
+          )
+        } onChangeText={formik.handleChange('bairro')} />
 
+
+        <View style={styles.categoria}>
           {categorias.map((categoria, index) =>
             <View key={categoria.id + Math.floor(100 + Math.random() * 100000)} style={{ margin: 5 }}>
               <View style={styles.contCheck}>
@@ -218,28 +215,19 @@ export function Reclame() {
               </View>
             </View>
           )}
-          <View style={styles.textAreaContainer} >
-            <TextInput
-              style={styles.textArea}
-              placeholder="Observação"
-              placeholderTextColor="grey"
-              numberOfLines={10}
-              multiline={true}
-              value={formik.values.descricao} errors={
-                formik.touched.descricao && formik.errors.descricao && (
-                  <Text style={styles.error}>{formik.errors.descricao}</Text>
-                )
-              } onChangeText={formik.handleChange('descricao')}
-            />
-          </View>
-        
-
         </View>
-        <View  style={styles.view_btn}>
-            <MainButton title="Enviar" onPress={formik.handleSubmit} />
-          </View>
-      </ScrollView>
 
+        <Input style={styles.descricao} placeholder="Descrição" value={formik.values.descricao} errors={
+          formik.touched.descricao && formik.errors.descricao && (
+            <Text style={styles.errordescricao}>{formik.errors.descricao}</Text>
+          )
+        } onChangeText={formik.handleChange('descricao')} />
+
+      </View>
+
+      <View style={styles.view_btn}>
+        <MainButton title="Enviar" onPress={formik.handleSubmit} />
+      </View>
     </View>
 
   );
@@ -247,10 +235,9 @@ export function Reclame() {
 
 const styles = StyleSheet.create({
   container: {
-    top: 52,
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#FFFF",
+
   },
   imagem: {
     width: 130,
@@ -258,7 +245,6 @@ const styles = StyleSheet.create({
     top: 10,
 
   },
-
   textAreaContainer: {
     borderColor: '#5CC6BA',
     borderWidth: 2,
@@ -287,10 +273,46 @@ const styles = StyleSheet.create({
     height: -40,
     left: -296
   },
+  errordescricao: {
+    fontSize: 15,
+    color: 'red',
+    top: 56,
+    height: -40,
+    left: -296
+  },
   view_btn: {
-    left:12,
-    top: 66,
+    left: 35,
+    top: 375,
 
-},
+  },
+  descricao: {
+    width: 300,
+    height: 80,
+    backgroundColor: '#F1F5F4',
+    paddingLeft: 20,
+    fontSize: 17,
+    borderRadius: 10,
+    top: 10,
+    padding: 4,
+    borderWidth: 2,
+    borderColor: '#5CC6BA',
+
+  },
+
+  input: {
+    width: 300,
+    height: 50,
+    borderRadius: 5,
+    margin: 29,
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: 200,
+
+  },
+
+  categoria: {
+    top: 8,
+    left: -50
+  }
 
 });

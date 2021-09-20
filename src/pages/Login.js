@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity, Image, View, Alert } from 'react-native';
+import { InputLogin } from '../components/InputLogin';
 import { Input } from '../components/Input';
 import GlobalStyles from '../styles/GlobalStyles';
 import { MainButton } from '../components/MainButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useFormik } from 'formik'
-import * as yup from 'yup'
 import { emailValidacao } from '../validacao/emailvalidacao';
 import { senhaValidacao } from '../validacao/senhaValidacao';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -30,17 +29,6 @@ export function Login({ navigation }) {
         return;
       }
 
-      /*const users =
-        (await JSON.parse(await AsyncStorage.getItem(keyAsyncStorage))) || [];
-      console.log(users)
-      if (users.length > 0) {
-        const userAux = users.filter((u) => u.email === email.value && u.senha === senha.value)
-        if (userAux.length > 0) {
-          await AsyncStorage.setItem(keyAsyncStorageLogado, JSON.stringify(userAux[0]))
-          navigation.navigate('Home', { user: userAux[0] })
-        }
-
-      }*/
       signIn(email.value, senha.value).then(() => {
         console.log(user)
         if (Object.keys(user).length > 0) {
@@ -68,7 +56,7 @@ export function Login({ navigation }) {
     <View style={GlobalStyles.screenContainer}>
       <Image style={styles.imagem} source={require('../imgs/R.png')} />
 
-      <Input
+      <InputLogin
         placeholder="E-mail"
         value={email.value}
         onChangeText={text => setEmail({ value: text, error: '' })}
@@ -78,7 +66,7 @@ export function Login({ navigation }) {
         keyboardType="email-address"
       />
 
-      <Input
+      <InputLogin
         placeholder="Senha"
         value={senha.value}
         onChangeText={text => setSenha({ value: text, error: '' })}
