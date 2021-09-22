@@ -42,7 +42,7 @@ export function ListarReclame() {
     api.get(`/api/solicitacoes/listaSolicitacoes/?id=${1}`).then((resp) => {
       console.log("REC ", resp.data)
       setReclamacoes(resp.data)
-    }).catch((error)=>{
+    }).catch((error) => {
       console.log('error ', error)
     })
   }
@@ -50,9 +50,9 @@ export function ListarReclame() {
   async function deletar(id) {
     const newData = tarefas.filter(item => item.id != id);
     await AsyncStorage.setItem(keyAsyncStorage, JSON.stringify(newData));
-  
+
     await loadData();
-}
+  }
 
   useEffect(() => {
     loadData();
@@ -61,11 +61,11 @@ export function ListarReclame() {
   return (
     <View style={styles.container} >
 
-      <View>
+      <View style={{flex: 1, justifyContent: 'center'}}>
         <FlatList data={reclamacoes}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.id * 2}
           renderItem={({ item, index }) => (
-            <ItemReclamacao status={item.statusConcluido} data_reclamacao={item.reclamacoes.data_reclamacao}nome={item.reclamacoes.nome}observacao={item.reclamacoes.descricao} apagar={() => deletar(item.id)}/>
+            <ItemReclamacao status={item.statusConcluido} data_reclamacao={item.reclamacoes.data_reclamacao}observacao={item.reclamacoes.descricao} apagar={() => deletar(item.id)} />
           )}
         />
 

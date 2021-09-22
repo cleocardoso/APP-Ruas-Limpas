@@ -17,7 +17,7 @@ function AuthProvider({ children }) {
 
     const userStorageKey = '@ifrndo:user';
 
-    async function signIn(email, password) {
+    async function signIn(email, password, functionAction) {
         console.log('CONTEXT -> ', email, password)
         const resp = await api.post('/api/usuarios/login/', {
             email: email,
@@ -25,8 +25,10 @@ function AuthProvider({ children }) {
         })
         console.log(resp.status)
         if (resp.status === 200) {
-            setUser(await resp.data)
-            await AsyncStorage.setItem(userStorageKey, JSON.stringify(user));
+            const userL = await resp.data
+            setUser(userL)
+            functionAction(userL)
+            await AsyncStorage.setItem(userStorageKey, JSON.stringify(userL));
         }
     }
 

@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Checkbox } from 'react-native-paper';
 import { useFormik } from 'formik'
 import * as yup from 'yup'
+import {useAuth} from '../context/Auth'
 
 export function Reclame() {
 
@@ -21,6 +22,7 @@ export function Reclame() {
   const [image, setImage] = useState(null);
   const [categorias, setCategorias] = useState([])
   const [reclamacoes, setReclamacoes] = useState([]);
+  const {user} = useAuth()
 
   const initialFormState = {
     rua: '',
@@ -85,12 +87,12 @@ export function Reclame() {
       rua,
       bairro,
       descricao,
-      //erimagem,
-      //usuario,
+      imagem: null,
+      usuario: user.user.id,
       categorias: getIDs(),
 
     }
-    /*const vetData = [...reclamacoes, data]
+    const vetData = [...reclamacoes, data]
 
     const headers = new Headers();
     headers.append("Content-Type", "application/json")
@@ -113,7 +115,7 @@ export function Reclame() {
     setRua("");
     setBairro("");
     setDescricao("");
-    loadData(); */  /*carega dados validos para tela */
+    loadData();  /*carega dados validos para tela */
     console.log(data)
     console.log(reclamacoes)
 

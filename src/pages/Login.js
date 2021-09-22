@@ -29,11 +29,13 @@ export function Login({ navigation }) {
         return;
       }
 
-      signIn(email.value, senha.value).then(() => {
+      signIn(email.value, senha.value, (user) => {
         console.log(user)
-        if (Object.keys(user).length > 0) {
-          console.log('user ', user)
-          navigation.navigate('Home', { user: user })
+        if (user != null) {
+          if (Object.keys(user).length > 0) {
+            console.log('user ', user)
+            navigation.navigate('Home', { user: user })
+          }
         }
       })
 
@@ -44,10 +46,12 @@ export function Login({ navigation }) {
   }
 
   useEffect(() => {
-    loadUserStorageDate((user)=>{
+    loadUserStorageDate((user) => {
       console.log('LOGIN ', user)
-      if (Object.keys(user).length > 0) {
-        navigation.navigate('Home', { user: user })
+      if (user != null) {
+        if (Object.keys(user).length > 0) {
+          navigation.navigate('Home', { user: user })
+        }
       }
     })
   }, [])
