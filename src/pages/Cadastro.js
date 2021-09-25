@@ -78,7 +78,7 @@ export function Cadastro({ navigation }) {
 
             try {
                 await AsyncStorage.setItem(keyAsyncStorage, JSON.stringify(vetData));
-                navigation.navigate('Home');
+                navigation.navigate('login');
             } catch (error) {
                 Alert.alert("Erro ao salvar Cadastro");
             }
@@ -152,7 +152,7 @@ export function Cadastro({ navigation }) {
                 </View>
                 <View style={styles.view_btn}>
                 <MainButton title="Salvar" onPress={formik.handleSubmit} />
-            </View>
+                </View>
             </ScrollView>
            
 

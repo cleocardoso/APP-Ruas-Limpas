@@ -39,9 +39,22 @@ export function ListarReclame() {
       Alert.alert("Erro na leitura de dados!");
     }*/
     console.log(user)
-    api.get(`/api/solicitacoes/listaSolicitacoes/?id=${1}`).then((resp) => {
-      console.log("REC ", resp.data)
-      setReclamacoes(resp.data)
+    api.get(`/api/solicitacoes/listaSolicitacoes/?id=${user.user.id}`).then(async (resp) => {
+      //console.log("REC ", resp.data)
+      const array = []
+      for (let rec of resp.data){
+        const {reclamacoes} = rec
+        const categorias = []
+        for (let c of reclamacoes.categorias){
+            const resp = await api.get(`/api/categorias/${c}/`)
+            if (resp.status === 200){
+              categorias.push(resp.data)
+            }
+        }
+        rec.reclamacoes.categorias = categorias;
+        array.push(rec)
+      }
+      setReclamacoes(array)
     }).catch((error) => {
       console.log('error ', error)
     })
@@ -63,9 +76,9 @@ export function ListarReclame() {
 
       <View style={{flex: 1, justifyContent: 'center'}}>
         <FlatList data={reclamacoes}
-          keyExtractor={item => item.id * 2}
+          keyExtractor={item => item.reclamacoes.id * 100}
           renderItem={({ item, index }) => (
-            <ItemReclamacao status={item.statusConcluido} data_reclamacao={item.reclamacoes.data_reclamacao}observacao={item.reclamacoes.descricao} apagar={() => deletar(item.id)} />
+            <ItemReclamacao categorias={item.reclamacoes.categorias} status={item.statusConcluido} data_reclamacao={item.reclamacoes.data_reclamacao}observacao={item.reclamacoes.descricao} apagar={() => deletar(item.id)} />
           )}
         />
 

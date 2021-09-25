@@ -85,14 +85,15 @@ export function Login({ navigation }) {
       <View style={styles.entrar}>
         <MainButton title="Entrar" onPress={handleLogin} />
       </View>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('Cadastro')}>
-        <Text style={styles.text}>Cadastre-se</Text>
-      </TouchableOpacity>
       <TouchableOpacity style={styles.buttonGoogleSocial} >
         <AntDesign name="google" size={20} color="#5CC6BA" />
         <Text style={styles.textButtonGoogle}>Login com Google</Text>
+      </TouchableOpacity>
+      <Text style={styles.text2}> Não tem uma conta? </Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Cadastro')}>
+        <Text style={styles.text}>Registre-se</Text>
       </TouchableOpacity>
     </View>
   );
@@ -132,10 +133,12 @@ const styles = StyleSheet.create({
     alignContent: 'center',
   },
   text: {
-    fontSize: 20,
+    fontSize: 19,
     fontWeight: 'bold',
     color: '#5CC6BA',
     textAlign: 'center',
+    left:70,
+    top:5
   },
   text1: {
     fontSize: 17,
@@ -144,6 +147,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     top: -95,
     left: -10,
+
+  },
+  text2: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: '#C0C0C0',
+    textAlign: 'center',
+    top: -10,
+    left: -80,
 
   },
   entrar: {

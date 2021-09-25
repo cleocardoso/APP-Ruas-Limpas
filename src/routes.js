@@ -13,35 +13,42 @@ export function Routes() {
         <Stack.Navigator>
             <Stack.Screen name='login' component={Login} options={{ headerShown: false }} />
             <Stack.Screen name='Cadastro' component={Cadastro} options={{
-                 title: 'Cadastre-se', headerTitleStyle: {
-
-                    fontSize: 25,
-                    color: '#5CC6BA',
-                    fontWeight: 'bold',
+                 title: 'Registre-se',  headerTitleStyle: {                  
                     textAlign: 'center',
-                    left:-90
+                    left:-90,
+                    fontSize: 25,
+                    fontWeight: 'bold',
+                    color:'#FFFFFF'
+                },
+                headerStyle: {
+                    backgroundColor: '#5CC6BA',
                 },
             }} />
             <Stack.Screen name='Home' component={Home} options={{ headerShown: false }} />
             <Stack.Screen name='Reclame' component={Reclame} options={{
-                title: 'Reclamação', headerTitleStyle: {
-                    color: '#5CC6BA',
+                title: 'Reclamação',  headerTitleStyle: {                  
+                    textAlign: 'center',
+                    left:-90,
                     fontSize: 25,
-                    left:-80,
                     fontWeight: 'bold',
-                    textAlign: 'center'
-
+                    color:'#FFFFFF'
                 },
+                headerStyle: {
+                    backgroundColor: '#5CC6BA',
+                }
             }}
             />
 
             <Stack.Screen name='ListarReclame' component={ListarReclame} options={{                         
                 title: 'Minhas Reclamações',  headerTitleStyle: {                  
-                    color: '#5CC6BA',
-                    fontSize: 25,
+                    textAlign: 'center',
+                    left:-40,
+                    fontSize: 24,
                     fontWeight: 'bold',
-                    textAlign: 'center'
-
+                    color:'#FFFFFF'
+                },
+                headerStyle: {
+                    backgroundColor: '#5CC6BA',
                 },
             }}
             />

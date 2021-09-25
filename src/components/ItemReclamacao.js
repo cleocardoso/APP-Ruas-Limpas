@@ -1,29 +1,29 @@
 import React from 'react';
 
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet,DOMException, Alert } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-
-
-
 export default function ItemReclamacao(props, onPress) {
-  console.log(props)
+  //console.log(props)
+
   return (
     <View style={styles.container}>
       <View style={styles.row}>
         <View style={styles.left}>
-          <Text style={[styles.text1, styles.text]}> Data: {props.data_reclamacao}</Text>
+          <Text style={[styles.text1, styles.text]}> Data: {formTime(props.data_reclamacao)}</Text>
           <Text style={styles.text1}> Status: true</Text>
         </View>
         <View style={styles.right}>
           <TouchableOpacity style={styles.button} onPress={props.apagar}>
-            <AntDesign name="delete" size={25} color={'black'} />
+            <AntDesign name="delete" top={10} size={25} color={'black'} />
           </TouchableOpacity>
         </View>
       </View>
-      <View style={styles.row}>
-        <Text style={styles.text1}> Categoria: lixo</Text>
-      </View>
+      {props.categorias.map(categoria =>
+        <View key={categoria.id} style={styles.row}>
+          <Text style={styles.text1}> Categoria: {categoria.nome}</Text>
+        </View>
+      )}
       <View style={styles.row}>
         <Text style={styles.text1}> Observação: {props.observacao}</Text>
       </View>

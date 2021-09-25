@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Checkbox } from 'react-native-paper';
 import { useFormik } from 'formik'
 import * as yup from 'yup'
-import {useAuth} from '../context/Auth'
+import { useAuth } from '../context/Auth'
 
 export function Reclame() {
 
@@ -22,7 +22,7 @@ export function Reclame() {
   const [image, setImage] = useState(null);
   const [categorias, setCategorias] = useState([])
   const [reclamacoes, setReclamacoes] = useState([]);
-  const {user} = useAuth()
+  const { user } = useAuth()
 
   const initialFormState = {
     rua: '',
@@ -192,44 +192,46 @@ export function Reclame() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.input}>
-        <Input placeholder="Rua" value={formik.values.rua} errors={
-          formik.touched.rua && formik.errors.rua && (
-            <Text style={styles.error}>{formik.errors.rua}</Text>
-          )
-        } onChangeText={formik.handleChange('rua')} />
+      
+        <View style={styles.input}>
+          <Input placeholder="Rua" value={formik.values.rua} errors={
+            formik.touched.rua && formik.errors.rua && (
+              <Text style={styles.error}>{formik.errors.rua}</Text>
+            )
+          } onChangeText={formik.handleChange('rua')} />
 
-        <Input placeholder="Bairro" value={formik.values.bairro} errors={
-          formik.touched.bairro && formik.errors.bairro && (
-            <Text style={styles.error}>{formik.errors.bairro}</Text>
-          )
-        } onChangeText={formik.handleChange('bairro')} />
+          <Input placeholder="Bairro" value={formik.values.bairro} errors={
+            formik.touched.bairro && formik.errors.bairro && (
+              <Text style={styles.error}>{formik.errors.bairro}</Text>
+            )
+          } onChangeText={formik.handleChange('bairro')} />
 
 
-        <View style={styles.categoria}>
-          {categorias.map((categoria, index) =>
-            <View key={categoria.id + Math.floor(100 + Math.random() * 100000)} style={{ margin: 5 }}>
-              <View style={styles.contCheck}>
-                <Checkbox
-                  status={categoria.checked ? 'checked' : 'unchecked'}
-                  onPress={() => onCategorias(index)}
-                /><Text style={styles.texCategoria}>{categoria.nome}</Text>
+          <View style={styles.categoria}>
+            {categorias.map((categoria, index) =>
+              <View key={categoria.id + Math.floor(100 + Math.random() * 100000)} style={{ margin: 5 }}>
+                <View style={styles.contCheck}>
+                  <Checkbox
+                    status={categoria.checked ? 'checked' : 'unchecked'}
+                    onPress={() => onCategorias(index)}
+                  /><Text style={styles.texCategoria}>{categoria.nome}</Text>
+                </View>
               </View>
-            </View>
-          )}
+            )}
+          </View>
+
+          <Input style={styles.descricao} placeholder="Descrição" value={formik.values.descricao} errors={
+            formik.touched.descricao && formik.errors.descricao && (
+              <Text style={styles.errordescricao}>{formik.errors.descricao}</Text>
+            )
+          } onChangeText={formik.handleChange('descricao')} />
+
         </View>
 
-        <Input style={styles.descricao} placeholder="Descrição" value={formik.values.descricao} errors={
-          formik.touched.descricao && formik.errors.descricao && (
-            <Text style={styles.errordescricao}>{formik.errors.descricao}</Text>
-          )
-        } onChangeText={formik.handleChange('descricao')} />
-
-      </View>
-
-      <View style={styles.view_btn}>
-        <MainButton title="Enviar" onPress={formik.handleSubmit} />
-      </View>
+        <View style={styles.view_btn}>
+          <MainButton title="Enviar" onPress={formik.handleSubmit} />
+        </View>
+      
     </View>
 
   );
