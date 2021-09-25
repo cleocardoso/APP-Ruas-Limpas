@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import GlobalStyles from '../styles/GlobalStyles';
 import { MainButton } from '../components/MainButton';
 
@@ -18,59 +18,80 @@ export function Home({ navigation }) {
   return (
 
     <View style={GlobalStyles.screenContainer}>
-      <MainButton title="Reclame aqui!"    onPress={Reclame} />
-      <MainButton title="Minhas Reclamações!"  onPress={ListarReclame} />
+
+      <Image style={styles.imagem} source={require('../imgs/R.png')} />
+
+      <TouchableOpacity style={styles.button} onPress={Reclame}>
+        <Image style={styles.imagem2} source={require('../imgs/reclame.png')} />
+        <Text style={styles.btnStyle}>Reclame Aqui!</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button2} onPress={ListarReclame}>
+        <Image style={styles.imagem3} source={require('../imgs/list.png')} />
+        <Text style={styles.buttonStyle}>Minhas Reclamações!</Text>
+      </TouchableOpacity>
     </View>
 
   );
 }
 
 const styles = StyleSheet.create({
-  title: {
-    fontSize: 30,
-  },
   imagem: {
-    width: 250,
+    width: 130,
     height: 200,
-    top: -20
-
-  },
-  Text: {
-    fontSize: 20,
-    color: '#5CC6BA',
-    fontWeight: 'bold',
-    top: -40,
-    left: -95,
-
-  },
-
+    top: -90,
+    left: 4,
+  },  
   button: {
     width: 150,
-    height: 30,
-    left: -115,
-    borderRadius: 5,
-    top: -30
-  },
-
-  button2: {
-    width: 160,
-    height: 30,
-    left: 80,
+    height: 100,
     top: -60,
-    borderRadius: 5,
-    alignContent: 'center'
+    left: -80,
+    borderRadius: 10,
+    backgroundColor: '#5CC6BA',
+    alignContent: 'center',
   },
-  text: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#5CC6BA',
-    textAlign: 'center'
+  button2: {
+    width: 150,
+    height: 100,
+    top: -160,
+    left: 90,
+    borderRadius: 10,
+    backgroundColor: '#5CC6BA',
+    alignContent: 'center',
   },
-  text1: {
-    fontSize: 20,
+  imagem2:{
+    width: 110,
+    height: 100,
+    top: -5,
+    left: 10,
+  },
+  imagem3:{
+    width: 60,
+    height: 60,
+    top: 5,
+    left: 40,
+  }, 
+  buttonStyle: {
+    fontSize: 13,
     fontWeight: 'bold',
+    top: 16,
+    color: '#000',
+    left: 8
+  },
+  btnStyle: {
+    fontSize: 13,
+    fontWeight: 'bold',
+    top: -23,
+    color: '#000',
+    left: 20
+  },
+  btn: {
+    width: 300,
+    top: -80,
     color: '#5CC6BA',
-    textAlign: 'center'
+
   }
+
 
 })
