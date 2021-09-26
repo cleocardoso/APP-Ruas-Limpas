@@ -55,16 +55,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     borderRadius: 5,*/
-    width: '100%',
+    width: '90%',
     height: 'auto',
     flex: 1,
     backgroundColor: '#f5f5f5',
-    borderRadius: 0.5,
-    borderWidth: 0.1,
-    borderColor: '#686767',
-    marginBottom: 0.9,
-    top: 8
-
+    borderRadius: 6,
+    borderWidth: 2,
+    //borderColor: '#686767',
+    marginBottom: 10,
+    top: 8,
+    left:20,
+    borderColor: '#5CC6BA',
   },
   row: {
     flexDirection: "row",
@@ -76,7 +77,10 @@ const styles = StyleSheet.create({
   },
   text: {
     backgroundColor: '#ccc',
+    width:320,
+    left:-1,
     opacity: 0.9,
+    borderRadius: 0.5,
   },
   button: {
     padding: 15,
@@ -84,13 +88,15 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     flex: 1,
+    top:40
   },
   right: {
     right: 1
   },
   left: {
     left: 1,
-    flex: 1
+    flex: 1,
+    
   },
 
 

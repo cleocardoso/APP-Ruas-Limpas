@@ -60,10 +60,9 @@ export function ListarReclame() {
     })
   }
 
-  async function deletar(id) {
-    const newData = tarefas.filter(item => item.id != id);
-    await AsyncStorage.setItem(keyAsyncStorage, JSON.stringify(newData));
-
+  async function deletar(item) {
+    console.log("delete", item)
+    await api.delete(`/api/reclamacoes/deletarReclamacoes/?id=${item.reclamacoes.id}`)
     await loadData();
   }
 
@@ -78,7 +77,7 @@ export function ListarReclame() {
         <FlatList data={reclamacoes}
           keyExtractor={item => item.reclamacoes.id * 100}
           renderItem={({ item, index }) => (
-            <ItemReclamacao categorias={item.reclamacoes.categorias} status={item.statusConcluido} data_reclamacao={item.reclamacoes.data_reclamacao}observacao={item.reclamacoes.descricao} apagar={() => deletar(item.id)} />
+            <ItemReclamacao categorias={item.reclamacoes.categorias} status={item.statusConcluido} data_reclamacao={item.reclamacoes.data_reclamacao} observacao={item.reclamacoes.descricao} apagar={() => deletar(item)} />
           )}
         />
 
