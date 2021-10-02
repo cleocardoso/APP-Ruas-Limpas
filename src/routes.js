@@ -7,7 +7,7 @@ import { HomeAdmin } from './pages/HomeAdmin'
 import { Reclame } from './pages/Reclame';
 import { ListarReclame } from './pages/ListarReclame';
 import { ListarReclameAdm } from './pages/ListarReclameAdm'
-import { ListarUsuarios } from './pages/ListarUsuarios';
+
 
 const Stack = createStackNavigator();
 
@@ -56,19 +56,7 @@ export function Routes() {
                 },
             }}
             />
-            <Stack.Screen name='ListarUsuarios' component={ListarUsuarios} options={{                         
-                title: 'Usuários',  headerTitleStyle: {                  
-                    textAlign: 'center',
-                    left:-90,
-                    fontSize: 24,
-                    fontWeight: 'bold',
-                    color:'#FFFFFF'
-                },
-                headerStyle: {
-                    backgroundColor: '#5CC6BA',
-                },
-            }}
-            />
+            
         </Stack.Navigator>
     );
 }

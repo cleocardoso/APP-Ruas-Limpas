@@ -32,7 +32,7 @@ export default function TabsC({
   reclamacoes,
 }) {
   return (
-    <View style={{ top: 8 }}>
+    <View style={{ top:-1 }}>
       <Tabs>
         <Tab
           tabStyle={{ backgroundColor: '#2B887E' }}
@@ -57,7 +57,7 @@ export default function TabsC({
             <TabHeading style={{ backgroundColor: '#2B887E' }}>
               <>
                 {iconUsuarios}
-                <Text style={styles.text}>Usuarios</Text>
+                <Text style={styles.text}>Usuários</Text>
               </>
             </TabHeading>
           }>

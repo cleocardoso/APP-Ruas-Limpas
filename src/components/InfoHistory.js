@@ -20,7 +20,7 @@ import {
 
 export default function InfoHistory(){
   return (
-    <View style={{ paddingLeft: 2, paddingRight: 2 }}>
+    <View style={{ paddingLeft: 2, paddingRight: 2, backgroundColor: '#2B887E' }}>
           <Row>
             <Left>
               <Body>
@@ -43,7 +43,7 @@ export default function InfoHistory(){
 
 const styles = StyleSheet.create({
   textSecundary: {
-    color: '#686867',
+    color: '#f5f5f5',
     textAlign: 'center',
     fontSize: 14,
   },
