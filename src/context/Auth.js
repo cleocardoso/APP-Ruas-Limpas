@@ -12,6 +12,9 @@ const AuthContext = createContext({});
 function AuthProvider({ children }) {
     const [user, setUser] = useState({});
     const [isAdmin, setIsAdmin] = useState(false)
+    const [categorias, setCategorias] = useState([])
+    const [users, setUsers] = useState([])
+    const [reclamacoes, setReclamacoes] = useState([])
     const [userLoading, setUserLoading] = useState(true);
     console.log("USER CONTEXT ", user)
 
@@ -42,6 +45,30 @@ function AuthProvider({ children }) {
         //await AsyncStorage.removeItem(userStorageKey);
     }
 
+    function loadCategorias(){
+        api.get('/api/categorias/')
+        .then(resp => {
+            const data = resp.data
+            setCategorias(data)
+        })
+    }
+
+    function loadUsers(){
+        api.get('/api/usuarios/')
+        .then(resp => {
+            const data = resp.data
+            setUsers(data)
+        })
+    }
+
+    function loadReclamacoes(){
+        api.get('/api/reclamacoes/')
+        .then(resp => {
+            const data = resp.data
+            setReclamacoes(data)
+        })
+    }
+
     async function loadUserStorageDate(functionAction) {
        await AsyncStorage.getItem(userStorageKey)
        .then((resp)=>{
@@ -55,12 +82,14 @@ function AuthProvider({ children }) {
         
     }
 
-    /*useEffect(()=>{
-        loadUserStorageDate()
-    }, [])*/
+    useEffect(()=>{
+        loadCategorias()
+        loadUsers()
+        loadReclamacoes()
+    }, [])
 
     return (
-        <AuthContext.Provider value={{ user, signIn, logout, loadUserStorageDate, userLoading }}>
+        <AuthContext.Provider value={{ user, categorias, reclamacoes, users, signIn, logout, loadUserStorageDate, userLoading }}>
             {children}
         </AuthContext.Provider>
 

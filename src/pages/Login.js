@@ -18,6 +18,18 @@ export function Login({ navigation }) {
   const [senha, setSenha] = useState({ value: '', error: '' });
   const { user, signIn, loadUserStorageDate } = useAuth()
 
+  function redirect(user) {
+    if (user != null){
+      if (Object.keys(user).length > 0){
+        if(user.is_admin){
+          navigation.navigate('HomeAdmin', { user: user })
+        } else {
+          navigation.navigate('Home', { user: user })
+        }
+      }
+    }
+  }
+
   async function handleLogin() {
     const emailError = emailValidacao(email.value);
     const senhaError = senhaValidacao(senha.value);
@@ -31,12 +43,7 @@ export function Login({ navigation }) {
 
       signIn(email.value, senha.value, (user) => {
         console.log(user)
-        if (user != null) {
-          if (Object.keys(user).length > 0) {
-            console.log('user ', user)
-            navigation.navigate('Home', { user: user })
-          }
-        }
+        redirect(user)
       })
 
     } catch (e) {
@@ -48,11 +55,7 @@ export function Login({ navigation }) {
   useEffect(() => {
     loadUserStorageDate((user) => {
       console.log('LOGIN ', user)
-      if (user != null) {
-        if (Object.keys(user).length > 0) {
-          navigation.navigate('Home', { user: user })
-        }
-      }
+      redirect(user)
     })
   }, [])
 

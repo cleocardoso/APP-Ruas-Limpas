@@ -3,8 +3,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Login } from './pages/Login';
 import { Cadastro } from './pages/Cadastro';
 import { Home } from './pages/Home';
+import { HomeAdmin } from './pages/HomeAdmin'
 import { Reclame } from './pages/Reclame';
 import { ListarReclame } from './pages/ListarReclame';
+import { ListarReclameAdm } from './pages/ListarReclameAdm'
+import { ListarUsuarios } from './pages/ListarUsuarios';
 
 const Stack = createStackNavigator();
 
@@ -25,6 +28,7 @@ export function Routes() {
                 },
             }} />
             <Stack.Screen name='Home' component={Home} options={{ headerShown: false }} />
+            <Stack.Screen name='HomeAdmin' component={HomeAdmin} options={{ headerShown: false }} />
             <Stack.Screen name='Reclame' component={Reclame} options={{
                 title: 'Reclamação',  headerTitleStyle: {                  
                     textAlign: 'center',
@@ -39,10 +43,23 @@ export function Routes() {
             }}
             />
 
-            <Stack.Screen name='ListarReclame' component={ListarReclame} options={{                         
+            <Stack.Screen name='ListarReclameAdm' component={ListarReclameAdm} options={{                         
                 title: 'Minhas Reclamações',  headerTitleStyle: {                  
                     textAlign: 'center',
                     left:-40,
+                    fontSize: 24,
+                    fontWeight: 'bold',
+                    color:'#FFFFFF'
+                },
+                headerStyle: {
+                    backgroundColor: '#5CC6BA',
+                },
+            }}
+            />
+            <Stack.Screen name='ListarUsuarios' component={ListarUsuarios} options={{                         
+                title: 'Usuários',  headerTitleStyle: {                  
+                    textAlign: 'center',
+                    left:-90,
                     fontSize: 24,
                     fontWeight: 'bold',
                     color:'#FFFFFF'
