@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Divider } from 'react-native-paper';
 import {
@@ -17,13 +17,10 @@ import {
   Tabs,
   TabHeading,
 } from 'native-base';
-import moment from 'moment';
-import { useAuth } from '../context/Auth'
 
 export default function InfoUser() {
-  const {user} = useAuth()
   return (
-    <View style={{backgroundColor: '#2B887E'}}>
+    <View style={{top: 10}}>
       <Row>
         <Left>
           <Row>
@@ -34,18 +31,18 @@ export default function InfoUser() {
               }}
             />
             <Body>
-              <Text style={{color:'#f5f5f5'}}>Olá Usuário</Text>
+              <Text>Olá Usuario</Text>
             </Body>
           </Row>
         </Left>
         <Right style={{ top: 20 }}>
           <Body>
             <Text style={styles.text}>Ultimo acesso:</Text>
-            <Text style={styles.text}>{moment().locale('pt-br').format("L")} ás {moment().locale('pt-br').format("H:mm")}min </Text>
+            <Text style={styles.text}>01/10/2021 as 15h25min</Text>
           </Body>
         </Right>
       </Row>
-      <Divider style={{ top: 15, marginBottom: 20 ,backgroundColor:'#f5f5f5'}} />
+      <Divider style={{ top: 8, marginBottom: 20 }} />
     </View>
   );
 }
@@ -55,7 +52,6 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     fontSize: 13.5,
-    color:'#f5f5f5'
   },
   textSecundary: {
     color: '#686867',

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { Routes } from './src/routes';
+import { Routes } from './src/routes/routes';
 
 import { AuthProvider } from './src/context/Auth';
 export default function App() {

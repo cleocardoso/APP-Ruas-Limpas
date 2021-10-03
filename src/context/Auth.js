@@ -16,23 +16,25 @@ function AuthProvider({ children }) {
     const [users, setUsers] = useState([])
     const [reclamacoes, setReclamacoes] = useState([])
     const [userLoading, setUserLoading] = useState(true);
-    console.log("USER CONTEXT ", user)
+    //console.log("USER CONTEXT ", user)
 
     const userStorageKey = '@ifrndo:user';
 
-    async function signIn(email, password, functionAction) {
-        console.log('CONTEXT -> ', email, password)
-        const resp = await api.post('/api/usuarios/login/', {
+    async function signIn(email, password, functionAction, functionError) {
+       // console.log('CONTEXT -> ', email, password)
+        api.post('/api/usuarios/login/', {
             email: email,
             senha: password
         })
-        console.log(resp.status)
-        if (resp.status === 200) {
-            const userL = await resp.data
+        .then(async resp =>{
+            const userL = resp.data
             setUser(userL)
             functionAction(userL)
             await AsyncStorage.setItem(userStorageKey, JSON.stringify(userL));
-        }
+        })        
+        .catch(error =>{
+            functionError(error)
+        }) 
     }
 
     useEffect(() => {
@@ -74,7 +76,7 @@ function AuthProvider({ children }) {
        .then((resp)=>{
             let user = {}
             user = JSON.parse(resp)
-            console.log(user)
+           // console.log(user)
             functionAction(user)
             setUser(user);
         })
@@ -89,7 +91,7 @@ function AuthProvider({ children }) {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ user, categorias, reclamacoes, users, signIn, logout, loadUserStorageDate, userLoading }}>
+        <AuthContext.Provider value={{ user, categorias, reclamacoes, users, signIn, logout, loadUserStorageDate, setUserLoading, userLoading }}>
             {children}
         </AuthContext.Provider>
 

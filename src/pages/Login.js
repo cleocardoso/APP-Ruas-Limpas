@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, TouchableOpacity, Image, View, Alert } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, Image, View, Alert, ActivityIndicator } from 'react-native';
 import { InputLogin } from '../components/InputLogin';
 import { Input } from '../components/Input';
 import GlobalStyles from '../styles/GlobalStyles';
@@ -9,31 +9,35 @@ import { emailValidacao } from '../validacao/emailvalidacao';
 import { senhaValidacao } from '../validacao/senhaValidacao';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useAuth } from '../context/Auth';
-
+import Loading from '../components/modals/Loading';
 
 export function Login({ navigation }) {
   const keyAsyncStorage = "@RuasLimpas:cadastrando";
   const keyAsyncStorageLogado = '@RuasLimpas:logado'
   const [email, setEmail] = useState({ value: '', error: '' });
+  const [loading, setLoading] = useState(false);
   const [senha, setSenha] = useState({ value: '', error: '' });
-  const { user, signIn, loadUserStorageDate } = useAuth()
+  const { user, signIn, loadUserStorageDate, userLoading, setUserLoading } = useAuth()
 
   function redirect(user) {
-    if (user != null){
-      if (Object.keys(user).length > 0){
-        if(user.is_admin){
-          navigation.navigate('HomeAdmin', { user: user })
+    
+    if (user != null) {
+      if (Object.keys(user).length > 0) {
+        if (user.is_admin) {
+          navigation.navigate('Admin', { user: user })
         } else {
-          navigation.navigate('Home', { user: user })
+          navigation.navigate('User', { user: user })
         }
+        setUserLoading(false)
       }
     }
   }
 
   async function handleLogin() {
+    setLoading(true)
     const emailError = emailValidacao(email.value);
     const senhaError = senhaValidacao(senha.value);
-    console.log(email, ' ', senha)
+    //console.log(email, ' ', senha)
     try {
       if (emailError || senhaError) {
         setEmail({ ...email, error: emailError });
@@ -42,25 +46,36 @@ export function Login({ navigation }) {
       }
 
       signIn(email.value, senha.value, (user) => {
-        console.log(user)
+        //console.log(user)
+        setLoading(false)
         redirect(user)
+      }, (error) =>{
+        Alert.alert("Erro na autenticação!");
+        setLoading(false)
       })
 
     } catch (e) {
-      console.log(e)
+      //console.log(e)
       Alert.alert("Erro na autenticação!");
+      setLoading(false)
     }
   }
 
   useEffect(() => {
+    setUserLoading(true)
     loadUserStorageDate((user) => {
-      console.log('LOGIN ', user)
+      //console.log('LOGIN ', user)
       redirect(user)
     })
   }, [])
 
   return (
     <View style={GlobalStyles.screenContainer}>
+      {userLoading && (
+        <Loading lottie={require('../assets/lotties/loading-page.json')}
+          lottie2={require('../assets/lotties/loading-green.json')}
+        />
+      )}
       <Image style={styles.imagem} source={require('../imgs/R.png')} />
 
       <InputLogin
@@ -86,7 +101,7 @@ export function Login({ navigation }) {
       </TouchableOpacity>
 
       <View style={styles.entrar}>
-        <MainButton title="Entrar" onPress={handleLogin} />
+        <MainButton title="Entrar" visible={loading} onPress={handleLogin} />
       </View>
       <TouchableOpacity style={styles.buttonGoogleSocial} >
         <AntDesign name="google" size={20} color="#5CC6BA" />
@@ -140,8 +155,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#5CC6BA',
     textAlign: 'center',
-    left:70,
-    top:5
+    left: 70,
+    top: 5
   },
   text1: {
     fontSize: 17,
