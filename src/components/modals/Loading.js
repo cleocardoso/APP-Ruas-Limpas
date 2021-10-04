@@ -7,7 +7,7 @@ import { Footer, Container, Content, Body } from 'native-base'
 const Loading = ({ lottie, lottie2 }) => {
 
     return (
-        <Modal visible={lottie2 !== undefined}>
+        <Modal visible={lottie2 !== undefined || lottie !== undefined}>
             <Container style={{ backgroundColor: '#f5f5f5' }}>
                 <Content />
                 <LottieView

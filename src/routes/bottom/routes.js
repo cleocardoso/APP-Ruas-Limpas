@@ -1,17 +1,19 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Home } from '../../pages/Home';
-import { HomeAdmin } from '../../pages/HomeAdmin'
-import { Reclame } from '../../pages/Reclame';
-import AntDesign from 'react-native-vector-icons/AntDesign'
-import EvilIcons from 'react-native-vector-icons/EvilIcons'
+import { Reclame } from '../../pages/reclame/Reclame';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import ProfileRoute from '../admin/Profile';
+import UserRoute from '../user/UserRoute'
+import ProfileUserRoute from '../user/ProfileUser';
+import AdminRoute from '../admin/AdminRoute';
 
 const Bottom = createBottomTabNavigator();
 
-function setOptions({ title, tabBarIcon }) {
+function setOptions({ title, tabBarIcon, headerShown}) {
     return {
         title,
-        headerShown: false,
+        headerShown: headerShown ? headerShown : false,
         tabBarIcon: tabBarIcon,
         tabBarActiveTintColor: "green",
         tabBarInactiveTintColor: "#686868",
@@ -22,17 +24,17 @@ function setOptions({ title, tabBarIcon }) {
 export function Admin() {
     return (
         <Bottom.Navigator initialRouteName='HomeAdmin'>
-            <Bottom.Screen name='HomeAdmin' component={HomeAdmin} options={{
+            <Bottom.Screen name='HomeAdmin' component={AdminRoute} options={{
                 ...setOptions({
                     title: 'Home',
                     tabBarIcon: () => <AntDesign name="home" color="#686868" size={28} />
                 })
             }} />
-            <Bottom.Screen name='UserAdmin' component={HomeAdmin} options={{
+            <Bottom.Screen name='ProfileAdmin' component={ProfileRoute} options={{
                 ...setOptions({
-                    title: 'User',
+                    title: 'Profile',
                     tabBarIcon: () => <AntDesign name="user" color="#686868" size={28} />
-                })
+                }),
             }} />
             <Bottom.Screen name='LixeiraAdmin' component={Reclame} options={{
                 ...setOptions({
@@ -56,14 +58,14 @@ export function Admin() {
 export function User() {
     return (
         <Bottom.Navigator initialRouteName='HomeUser'>
-            <Bottom.Screen name='HomeUser' component={Home} options={{
+            <Bottom.Screen name='HomeUser' component={UserRoute} options={{
                     ...setOptions({
                         title: 'Home',
                         tabBarIcon: () => <AntDesign name="home" color="#686868" size={28} />
                     })
                 }} 
             />
-            <Bottom.Screen name='ProfileUser' component={HomeAdmin} options={{
+            <Bottom.Screen name='ProfileUserRoute' component={ProfileUserRoute} options={{
                     ...setOptions({
                         title: 'User',
                         tabBarIcon: () => <AntDesign name="user" color="#686868" size={28} />

@@ -24,19 +24,19 @@ import {
   Card,
 } from 'native-base';
 
-import { useAuth } from '../context/Auth'
+import { useAuth } from '../../context/Auth'
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-import InfoUser from '../components/InfoUser';
-import InfoHistory from '../components/InfoHistory';
-import TabsC from '../components/TabsC';
-import FooterBottom from '../components/FooterBottom';
-import ListItens from '../components/List';
-import ListCard from '../components/reclamacoes/ListCard';
+import InfoUser from '../../components/InfoUser';
+import InfoHistory from '../../components/InfoHistory';
+import TabsC from '../../components/TabsC';
+import FooterBottom from '../../components/FooterBottom';
+import ListItens from '../../components/List';
+import ListReclamacoes from '../../components/reclamacoes/ListReclamacoes';
 
 export function HomeAdmin({ navigation }) {
   const { categorias, users, reclamacoes } = useAuth()
@@ -58,7 +58,7 @@ export function HomeAdmin({ navigation }) {
         <InfoHistory />
         <TabsC
           reclamacoes={
-            <ListCard data={reclamacoes} emptyMessage={"Vazio"} />
+            <ListReclamacoes data={reclamacoes} emptyMessage={"Sem Reclamaçoes"} />
           }
           categorias={
             <ListItens

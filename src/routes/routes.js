@@ -8,6 +8,7 @@ import { ListarReclame } from '../pages/ListarReclame';
 import { ListarReclameAdm } from '../pages/ListarReclameAdm'
 import { ListarUsuarios } from '../pages/ListarUsuarios';
 import { Admin, User } from './bottom/routes';
+
 const Stack = createStackNavigator();
 
 export function Routes() {
@@ -27,12 +28,12 @@ export function Routes() {
                 },
             }} />
             <Stack.Screen name='Admin' component={Admin} options={{
-                    headerShown: false
-                }} 
+                headerShown: false
+            }}
             />
             <Stack.Screen name='User' component={User} options={{
-                    headerShown: false
-                }}
+                headerShown: false
+            }}
             />
 
             {/*<Stack.Screen name='ListarReclameAdm' component={ListarReclameAdm} options={{

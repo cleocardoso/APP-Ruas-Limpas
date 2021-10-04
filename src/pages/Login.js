@@ -28,9 +28,9 @@ export function Login({ navigation }) {
         } else {
           navigation.navigate('User', { user: user })
         }
-        setUserLoading(false)
       }
     }
+    setUserLoading(false)
   }
 
   async function handleLogin() {

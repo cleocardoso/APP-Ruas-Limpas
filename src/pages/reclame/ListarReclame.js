@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, Image, View, FlatList } from 'react-native';
-import ItemReclamacao from '../components/ItemReclamacao';
+import ItemReclamacao from '../../components/ItemReclamacao';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useAuth } from '../context/Auth';
-import api from '../services/Api';
+import { useAuth } from '../../context/Auth';
+import api from '../../services/Api';
 
 export function ListarReclame() {
   const { user } = useAuth()

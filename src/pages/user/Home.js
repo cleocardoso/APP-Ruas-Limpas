@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import GlobalStyles from '../styles/GlobalStyles';
-import { MainButton } from '../components/MainButton';
+import GlobalStyles from '../../styles/GlobalStyles';
+import { MainButton } from '../../components/MainButton';
 
 
 
@@ -19,15 +19,15 @@ export function Home({ navigation }) {
 
     <View style={GlobalStyles.screenContainer}>
 
-      <Image style={styles.imagem} source={require('../imgs/R.png')} />
+      <Image style={styles.imagem} source={require('../../imgs/R.png')} />
 
       <TouchableOpacity style={styles.button} onPress={Reclame}>
-        <Image style={styles.imagem2} source={require('../imgs/reclame.png')} />
+        <Image style={styles.imagem2} source={require('../../imgs/reclame.png')} />
         <Text style={styles.btnStyle}>Reclame Aqui!</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.button2} onPress={ListarReclame}>
-        <Image style={styles.imagem3} source={require('../imgs/list.png')} />
+        <Image style={styles.imagem3} source={require('../../imgs/list.png')} />
         <Text style={styles.buttonStyle}>Minhas Reclamações!</Text>
       </TouchableOpacity>
     </View>

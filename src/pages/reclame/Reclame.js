@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity, ScrollView, Keyboard, Image, View, Alert, TextInput } from 'react-native';
-import { Input } from '../components/Input';
-import GlobalStyles from '../styles/GlobalStyles';
-import { MainButton } from '../components/MainButton';
+import { Input } from '../../components/Input';
+import GlobalStyles from '../../styles/GlobalStyles';
+import { MainButton } from '../../components/MainButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Checkbox } from 'react-native-paper';
 import { useFormik } from 'formik'
 import * as yup from 'yup'
-import { useAuth } from '../context/Auth'
+import { useAuth } from '../../context/Auth'
 
 export function Reclame() {
 

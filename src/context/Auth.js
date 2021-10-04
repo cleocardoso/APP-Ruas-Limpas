@@ -11,7 +11,7 @@ const AuthContext = createContext({});
 
 function AuthProvider({ children }) {
     const [user, setUser] = useState({});
-    const [isAdmin, setIsAdmin] = useState(false)
+    //const [isAdmin, setIsAdmin] = useState(false)
     const [categorias, setCategorias] = useState([])
     const [users, setUsers] = useState([])
     const [reclamacoes, setReclamacoes] = useState([])
@@ -29,18 +29,16 @@ function AuthProvider({ children }) {
         .then(async resp =>{
             const userL = resp.data
             setUser(userL)
+            if (userL?.is_admin) {
+                loadAdmin()
+            }
             functionAction(userL)
             await AsyncStorage.setItem(userStorageKey, JSON.stringify(userL));
         })        
         .catch(error =>{
             functionError(error)
         }) 
-    }
-
-    useEffect(() => {
-        //console.log("USER CONTEXT ", user)
-    }, [user])
-
+    } 
     //**Função para apagar usuário  */
     async function logout() {
         //setUser({});
@@ -77,6 +75,9 @@ function AuthProvider({ children }) {
             let user = {}
             user = JSON.parse(resp)
            // console.log(user)
+            if (user?.is_admin) {
+                loadAdmin()
+            }
             functionAction(user)
             setUser(user);
         })
@@ -84,12 +85,12 @@ function AuthProvider({ children }) {
         
     }
 
-    useEffect(()=>{
+    function loadAdmin(){
         loadCategorias()
         loadUsers()
         loadReclamacoes()
-    }, [])
-
+    }
+ 
     return (
         <AuthContext.Provider value={{ user, categorias, reclamacoes, users, signIn, logout, loadUserStorageDate, setUserLoading, userLoading }}>
             {children}

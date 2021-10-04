@@ -17,8 +17,13 @@ import {
   Tabs,
   TabHeading,
 } from 'native-base';
+import moment from 'moment';
+import 'moment/locale/pt-br';
+
 
 export default function InfoUser() {
+  const data = moment().locale('pt-br').format('L');
+  const hora = moment().locale('pt-br').format('H:mm');
   return (
     <View style={{top: 10}}>
       <Row>
@@ -38,7 +43,7 @@ export default function InfoUser() {
         <Right style={{ top: 20 }}>
           <Body>
             <Text style={styles.text}>Ultimo acesso:</Text>
-            <Text style={styles.text}>01/10/2021 as 15h25min</Text>
+            <Text style={styles.text}>{data} ás {hora}min</Text>
           </Body>
         </Right>
       </Row>
