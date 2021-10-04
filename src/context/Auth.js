@@ -14,6 +14,8 @@ function AuthProvider({ children }) {
     //const [isAdmin, setIsAdmin] = useState(false)
     const [categorias, setCategorias] = useState([])
     const [users, setUsers] = useState([])
+    const [totalMes, setTotalMes] = useState({})
+    const [totalMesreclamacao, setTotalMesreclamacao] = useState({})
     const [reclamacoes, setReclamacoes] = useState([])
     const [userLoading, setUserLoading] = useState(true);
     //console.log("USER CONTEXT ", user)
@@ -68,6 +70,26 @@ function AuthProvider({ children }) {
             setReclamacoes(data)
         })
     }
+//para mostrar o total de usuarios por mes
+    function loadTotalMes(){
+        api.get('/api/usuarios/total_por_mes/')
+        .then(resp => {
+            const data = resp.data
+            setTotalMes(data)
+            
+        })
+        
+    }
+//para mostrar o total de reclamacoes por mes
+function loadTotalreclamacoes(){
+    api.get('/api/reclamacoes/total_por_mes/')
+    .then(resp => {
+        const data = resp.data
+        setTotalMesreclamacao(data)
+        
+    })
+    
+}
 
     async function loadUserStorageDate(functionAction) {
        await AsyncStorage.getItem(userStorageKey)
@@ -89,10 +111,13 @@ function AuthProvider({ children }) {
         loadCategorias()
         loadUsers()
         loadReclamacoes()
+        loadTotalMes()
+        loadTotalreclamacoes()
+        
     }
  
     return (
-        <AuthContext.Provider value={{ user, categorias, reclamacoes, users, signIn, logout, loadUserStorageDate, setUserLoading, userLoading }}>
+        <AuthContext.Provider value={{ user, totalMes,totalMesreclamacao,categorias, reclamacoes, users, signIn, logout,loadTotalMes, loadTotalreclamacoes, loadUserStorageDate, setUserLoading, userLoading }}>
             {children}
         </AuthContext.Provider>
 

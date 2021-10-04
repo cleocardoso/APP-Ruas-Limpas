@@ -1,4 +1,4 @@
-import { Body, Left, Right, Row } from 'native-base';
+import { Body, Item, Left, Right, Row } from 'native-base';
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 
@@ -6,11 +6,10 @@ import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'rea
 
 export function MainButton({user, title, onPress, visible}) {
   return (
-
-    <View >
-      <View>
+    <Item style={{borderBottomWidth: 0, top: 10, width: '93%'}}>
+      {/*<View>
         <Text >{user}</Text>
-      </View>
+      </View>*/}
       <TouchableOpacity style={styles.button} activeOpacity={0.6} onPress={onPress}>
         <View style={[styles.row, styles.center]}>
           {visible &&(
@@ -19,24 +18,23 @@ export function MainButton({user, title, onPress, visible}) {
           <Text style={styles.text}>{title}</Text>
         </View>
       </TouchableOpacity>
-    </View>
+    </Item>
 
   )
 };
 const styles = StyleSheet.create({
 
   button: {
-    width: 300,
-    height: 60,
-    top: -60,
-    left: -6,
-    borderRadius: 10,
+    height: 50,
+    borderRadius: 5,
     backgroundColor: '#5CC6BA',
     alignContent: 'center',
-
+    justifyContent: 'center',
+    alignSelf: 'center',
+    flex: 1,
   },
   text: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
     marginTop: 10,

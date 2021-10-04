@@ -17,15 +17,17 @@ import {
   Tabs,
   TabHeading,
 } from 'native-base';
+import { useAuth } from '../context/Auth';
 
 export default function InfoHistory(){
+  const { totalMes ,totalMesreclamacao } = useAuth()
   return (
     <View style={{ paddingLeft: 2, paddingRight: 2 }}>
           <Row>
             <Left>
               <Body>
                 <Text style={styles.textSecundary}>Registro de Usuarios </Text>
-                <Text style={styles.textSecundary}>No ultimo mês: 20</Text>
+                <Text style={styles.textSecundary}>No ultimo mês: {totalMes.size}</Text>
               </Body>
             </Left>
             <Right>
@@ -33,7 +35,7 @@ export default function InfoHistory(){
                 <Text style={styles.textSecundary}>
                   Registro de Reclamações
                 </Text>
-                <Text style={styles.textSecundary}>No Ultimo mês: 10</Text>
+                <Text style={styles.textSecundary}>No Ultimo mês: {totalMesreclamacao.size}</Text>
               </Body>
             </Right>
           </Row>

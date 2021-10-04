@@ -36,7 +36,7 @@ import 'moment/locale/pt-br';
 
 export function ProfileAdmin({ navigation }) {
     const { user } = useAuth()
-    const data = moment(user.user.last_login).locale('pt-br').format('L');
+    const data = moment().locale('pt-br').format('L');
     const datac = moment(user.user.date_joined).locale('pt-br').format('L');
     return (
         <Container>

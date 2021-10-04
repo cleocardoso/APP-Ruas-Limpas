@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, TouchableOpacity, ScrollView, Keyboard, Image, View, Alert, TextInput } from 'react-native';
-import { Input } from '../../components/Input';
+import { StyleSheet, Text, TouchableOpacity, ScrollView, Keyboard, Image, View, Alert, TextInput, Dimensions } from 'react-native';
+import { Input, InputText } from '../../components/Input';
 import GlobalStyles from '../../styles/GlobalStyles';
 import { MainButton } from '../../components/MainButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Checkbox } from 'react-native-paper';
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import { useAuth } from '../../context/Auth'
+import { Body, CheckBox, Container, Content, Form, Item, ListItem, Textarea } from 'native-base';
+import { TextArea } from '../../components/TextArea';
 
 export function Reclame() {
 
@@ -191,50 +192,44 @@ export function Reclame() {
 
 
   return (
-   
-      <View style={styles.container}>
-
-        <View style={styles.input}>
-          <Input placeholder="Rua" value={formik.values.rua} errors={
+    <Container>
+      <Content>
+        <Form>
+          <InputText placeholder="Rua" value={formik.values.rua} errors={
             formik.touched.rua && formik.errors.rua && (
               <Text style={styles.error}>{formik.errors.rua}</Text>
             )
           } onChangeText={formik.handleChange('rua')} />
 
-          <Input placeholder="Bairro" value={formik.values.bairro} errors={
+          <InputText placeholder="Bairro" value={formik.values.bairro} errors={
             formik.touched.bairro && formik.errors.bairro && (
               <Text style={styles.error}>{formik.errors.bairro}</Text>
             )
           } onChangeText={formik.handleChange('bairro')} />
-
-
-          <View style={styles.categoria}>
-            {categorias.map((categoria, index) =>
-              <View key={categoria.id + Math.floor(100 + Math.random() * 100000)} style={{ margin: 5 }}>
-                <View style={styles.contCheck}>
-                  <Checkbox
-                    status={categoria.checked ? 'checked' : 'unchecked'}
-                    onPress={() => onCategorias(index)}
-                  /><Text style={styles.texCategoria}>{categoria.nome}</Text>
-                </View>
-              </View>
-            )}
-          </View>
-
-          <Input style={styles.descricao} placeholder="Descrição" value={formik.values.descricao} errors={
+          {categorias.map((categoria, index) =>
+            <ListItem key={categoria.id + Math.floor(100 + Math.random() * 100000)}>
+              <CheckBox
+                color={"#5CC6BA"}
+                style={{ paddingBottom: 0 }}
+                checked={categoria.checked}
+                onPress={() => onCategorias(index)}
+              />
+              <Body>
+                <Text style={styles.texCategoria}>{categoria.nome}</Text>
+              </Body>
+            </ListItem>
+          )}
+          <TextArea  placeholder="Descrição" value={formik.values.descricao} errors={
             formik.touched.descricao && formik.errors.descricao && (
-              <Text style={styles.errordescricao}>{formik.errors.descricao}</Text>
+              <Text style={styles.error}>{formik.errors.descricao}</Text>
             )
           } onChangeText={formik.handleChange('descricao')} />
-
-        </View>
-
-        <View style={styles.view_btn}>
           <MainButton title="Enviar" onPress={formik.handleSubmit} />
-        </View>
+        </Form>
+        <View style={{marginTop: 20}} />
+      </Content>
+    </Container>
 
-      </View>
-    
 
   );
 }
@@ -250,7 +245,6 @@ const styles = StyleSheet.create({
     width: 130,
     height: 100,
     top: 10,
-
   },
   textAreaContainer: {
     borderColor: '#5CC6BA',
@@ -271,14 +265,11 @@ const styles = StyleSheet.create({
     alignItems: "baseline"
   },
   texCategoria: {
-    top: -2,
+    marginLeft: 10
   },
   error: {
     fontSize: 15,
     color: 'red',
-    top: 36,
-    height: -40,
-    left: -296
   },
   errordescricao: {
     fontSize: 15,
@@ -295,13 +286,13 @@ const styles = StyleSheet.create({
   descricao: {
     width: 300,
     height: 80,
-    backgroundColor: '#F1F5F4',
+    //backgroundColor: '#F1F5F4',
     paddingLeft: 20,
     fontSize: 17,
     borderRadius: 10,
     top: 10,
     padding: 4,
-    borderWidth: 2,
+    borderWidth: 0.5,
     borderColor: '#5CC6BA',
 
   },
