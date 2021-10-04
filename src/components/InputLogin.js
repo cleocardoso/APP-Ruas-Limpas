@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
         marginRight: 12
     },
     inputText: {
-        width: 300,
+        width: 310,
         height: 60,
         backgroundColor: '#F1F5F4',
         paddingLeft: 20,
@@ -40,7 +40,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 4,
         borderWidth: 2,
-        borderColor: '#5CC6BA',
+        borderColor: '#2B887E',
+        
     },
 
     description: {

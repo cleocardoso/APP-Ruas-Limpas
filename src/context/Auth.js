@@ -43,8 +43,8 @@ function AuthProvider({ children }) {
     } 
     //**Função para apagar usuário  */
     async function logout() {
-        //setUser({});
-        //await AsyncStorage.removeItem(userStorageKey);
+        setUser({});
+        await AsyncStorage.removeItem(userStorageKey);
     }
 
     function loadCategorias(){
@@ -113,6 +113,7 @@ function loadTotalreclamacoes(){
         loadReclamacoes()
         loadTotalMes()
         loadTotalreclamacoes()
+        logout()
         
     }
  

@@ -209,7 +209,7 @@ export function Reclame() {
           {categorias.map((categoria, index) =>
             <ListItem key={categoria.id + Math.floor(100 + Math.random() * 100000)}>
               <CheckBox
-                color={"#5CC6BA"}
+                color={"#2B887E"}
                 style={{ paddingBottom: 0 }}
                 checked={categoria.checked}
                 onPress={() => onCategorias(index)}
@@ -293,7 +293,7 @@ const styles = StyleSheet.create({
     top: 10,
     padding: 4,
     borderWidth: 0.5,
-    borderColor: '#5CC6BA',
+    borderColor: '#2B887E',
 
   },
 

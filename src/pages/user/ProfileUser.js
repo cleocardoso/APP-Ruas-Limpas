@@ -46,12 +46,12 @@ export function ProfileUser({ navigation }) {
                         <Row>
                             <Col>
                                 <Text>
-                                    Nome: {user.user.username}
+                                    Nome: {user.user.nome}
                                 </Text>
                             </Col>
                             <Col>
                                 <Text>
-                                    Primeiro Nome: {user.user.first_name}
+                                    Sobrenome: {user.user.sobreNome}
                                 </Text>
                             </Col>
                         </Row>
@@ -60,7 +60,7 @@ export function ProfileUser({ navigation }) {
                         <Row>
                             <Col>
                                 <Text>
-                                    Último Nome: {user.user.last_name}
+                                    Cidade: {user.user.cidade}
                                 </Text>
                             </Col>
                             <Col>

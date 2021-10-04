@@ -1,97 +1,131 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import GlobalStyles from '../../styles/GlobalStyles';
-import { MainButton } from '../../components/MainButton';
+import { StyleSheet } from 'react-native';
+import { Divider } from 'react-native-paper';
+import {
+  Container,
+  Content,
+  Header,
+  Row,
+  Left,
+  Right,
+  Thumbnail,
+  Body,
+  Text,
+  View,
+  Tab,
+  Tabs,
+  TabHeading,
+  Icon,
+  ListItem,
+  Button,
+  CardItem,
+  Col,
+  Item,
+  Card,
+} from 'native-base';
 
+import { useAuth } from '../../context/Auth'
 
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Feather from 'react-native-vector-icons/Feather';
+import EvilIcons from 'react-native-vector-icons/EvilIcons'
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
+import InfoUser from '../../components/InfoUser';
+import InfoHistoryUser from '../../components/InfoHistoryUser';
+import TabsUser from '../../components/TabsUser';
+import FooterBottom from '../../components/FooterBottom';
+import ListItens from '../../components/List';
+import ListReclamacoes from '../../components/reclamacoes/ListReclamacoes';
 
 export function Home({ navigation }) {
+  const { categorias, users, reclamacoes } = useAuth()
 
-  async function Reclame() {
-    navigation.navigate('Reclame')
+  async function ListarUsuarios() {
+    navigation.navigate('ListarUsuarios')
   }
 
-  async function ListarReclame() {
-    navigation.navigate('ListarReclame')
+  async function ListarReclameAdm() {
+    navigation.navigate('ListarReclameAdm')
   }
+  //const date = moment().locale('pt-br').format("L  H:mm ")
+
   return (
 
-    <View style={GlobalStyles.screenContainer}>
+    <Container>
+      <Content>
+        <InfoUser />
+        <InfoHistoryUser />
+        <TabsUser
+          reclamacoes={
+            <ListReclamacoes data={reclamacoes} emptyMessage={"Sem Reclamaçoes"} />
+          }
+          categorias={
+            <ListItens
+              empty={<Card><Body><Text>Sem categorias</Text></Body></Card>}
+              data={categorias}
+              renderItem={({ item }) =>
+                <ListItem>
+                  <Left>
+                    <Text note>{item.nome}</Text>
+                  </Left>
+                  <Right>
+                    <Icon>
+                      <EvilIcons name="trash" color="#f51" size={28} />
+                    </Icon>
+                  </Right>
+                </ListItem>
+              }
+            />
+          }
+          usuarios={
+            <ListItens
+              empty={<Card><Body><Text>Sem usuarios</Text></Body></Card>}
+              data={users}
+              renderItem={({ item }) =>
+                <ListItem>
+                  <Left>
+                    <Thumbnail
+                      style={{ width: 50, height: 50 }}
+                      source={{
+                        uri: item.foto
+                          ? item.foto
+                          : 'https://www.globaltec.com.br/wp-content/uploads/2021/01/laptop-user-1-1179329.png',
+                      }}
+                    />
+                  </Left>
+                  <Body>
+                    <Text>{item.nome}</Text>
+                    <Text note>
+                      Sobrenome: <Text note>{item.sobreNome}</Text>
+                    </Text>
+                    <Text note>
+                      Cidade: <Text note>{item.cidade}</Text>
+                    </Text>
+                  </Body>
+                </ListItem>
 
-      <Image style={styles.imagem} source={require('../../imgs/R.png')} />
+              }
+            />
+          }
+          iconUsuarios={
+            <FontAwesome name="users" size={20} color='#f5f5f5' />
+          }
+          iconCategorias={
+            <FontAwesome name="list" size={20} color='#f5f5f5' />
+          }
+          iconReclamacoes={
+            <FontAwesome name="list" size={20} color='#f5f5f5' />
+          }
+        />
+      </Content>
 
-      <TouchableOpacity style={styles.button} onPress={Reclame}>
-        <Image style={styles.imagem2} source={require('../../imgs/reclame.png')} />
-        <Text style={styles.btnStyle}>Reclame Aqui!</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.button2} onPress={ListarReclame}>
-        <Image style={styles.imagem3} source={require('../../imgs/list.png')} />
-        <Text style={styles.buttonStyle}>Minhas Reclamações!</Text>
-      </TouchableOpacity>
-    </View>
-
+    </Container>
   );
 }
 
 const styles = StyleSheet.create({
-  imagem: {
-    width: 130,
-    height: 200,
-    top: -90,
-    left: 4,
-  },  
-  button: {
-    width: 150,
-    height: 100,
-    top: -60,
-    left: -80,
-    borderRadius: 10,
-    backgroundColor: '#5CC6BA',
-    alignContent: 'center',
+  buttonText: {
+    color: '#f5f5f5'
   },
-  button2: {
-    width: 150,
-    height: 100,
-    top: -160,
-    left: 90,
-    borderRadius: 10,
-    backgroundColor: '#5CC6BA',
-    alignContent: 'center',
-  },
-  imagem2:{
-    width: 110,
-    height: 100,
-    top: -5,
-    left: 10,
-  },
-  imagem3:{
-    width: 60,
-    height: 60,
-    top: 5,
-    left: 40,
-  }, 
-  buttonStyle: {
-    fontSize: 13,
-    fontWeight: 'bold',
-    top: 16,
-    color: '#000',
-    left: 8
-  },
-  btnStyle: {
-    fontSize: 13,
-    fontWeight: 'bold',
-    top: -23,
-    color: '#000',
-    left: 20
-  },
-  btn: {
-    width: 300,
-    top: -80,
-    color: '#5CC6BA',
-
-  }
-
-
-})
+});

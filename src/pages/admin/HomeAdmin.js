@@ -29,7 +29,7 @@ import { useAuth } from '../../context/Auth'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import Octicons from 'react-native-vector-icons/Octicons';
 
 import InfoUser from '../../components/InfoUser';
 import InfoHistory from '../../components/InfoHistory';
@@ -71,7 +71,7 @@ export function HomeAdmin({ navigation }) {
                   </Left>
                   <Right>
                     <Icon>
-                      <EvilIcons name="trash" color="#f51" size={28} />
+                      <EvilIcons name="trash" color="#2B887E" size={28} />
                     </Icon>
                   </Right>
                 </ListItem>
@@ -115,7 +115,7 @@ export function HomeAdmin({ navigation }) {
             <FontAwesome name="list" size={20} color='#f5f5f5' />
           }
           iconReclamacoes={
-            <FontAwesome name="list" size={20} color='#f5f5f5' />
+            <Octicons name="megaphone" size={20} color='#f5f5f5' />
           }
         />
       </Content>

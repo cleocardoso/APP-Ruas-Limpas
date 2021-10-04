@@ -96,17 +96,9 @@ export function Login({ navigation }) {
         errorText={senha.error}
         secureTextEntry={true}
       />
-      <TouchableOpacity style={styles.button2}>
-        <Text style={styles.text1}>Esqueceu Senha?</Text>
-      </TouchableOpacity>
-
       <View style={styles.entrar}>
         <MainButton title="Entrar" visible={loading} onPress={handleLogin} />
       </View>
-      <TouchableOpacity style={styles.buttonGoogleSocial} >
-        <AntDesign name="google" size={20} color="#5CC6BA" />
-        <Text style={styles.textButtonGoogle}>Login com Google</Text>
-      </TouchableOpacity>
       <Text style={styles.text2}> Não tem uma conta? </Text>
       <TouchableOpacity
         style={styles.button}
@@ -153,10 +145,10 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 19,
     fontWeight: 'bold',
-    color: '#5CC6BA',
+    color: '#2B887E',
     textAlign: 'center',
-    left: 70,
-    top: 5
+    left: 90,
+    top: 95
   },
   text1: {
     fontSize: 17,
@@ -172,13 +164,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#C0C0C0',
     textAlign: 'center',
-    top: -10,
-    left: -80,
+    top: 80,
+    left: -60,
 
   },
   entrar: {
     left: -5,
-    top: 15,
+    top: -40,
     alignContent: 'center',
     justifyContent: 'center',
     borderRadius: 5,

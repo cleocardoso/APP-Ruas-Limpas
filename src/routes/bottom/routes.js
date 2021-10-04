@@ -1,12 +1,15 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Reclame } from '../../pages/reclame/Reclame';
+import { AddCategoria } from '../../pages/admin/AddCategoria';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import ProfileRoute from '../admin/Profile';
 import UserRoute from '../user/UserRoute'
 import ProfileUserRoute from '../user/ProfileUser';
 import AdminRoute from '../admin/AdminRoute';
+import { color, style } from 'styled-system';
 
 const Bottom = createBottomTabNavigator();
 
@@ -15,7 +18,7 @@ function setOptions({ title, tabBarIcon, headerShown}) {
         title,
         headerShown: headerShown ? headerShown : false,
         tabBarIcon: tabBarIcon,
-        tabBarActiveTintColor: "green",
+        tabBarActiveTintColor: "#2B887E",
         tabBarInactiveTintColor: "#686868",
         tabBarActiveBackgroundColor: "#f5f5f5",
     };
@@ -39,7 +42,7 @@ export function Admin() {
             <Bottom.Screen name='LixeiraAdmin' component={Reclame} options={{
                 ...setOptions({
                     title: 'Lixeira',
-                    tabBarIcon: () => <EvilIcons name="trash" color="#686868" size={28} />
+                    tabBarIcon: () => <FontAwesome name="trash-o" color="#686868" size={28} />
                 })
             }}
             />
@@ -47,7 +50,7 @@ export function Admin() {
             <Bottom.Screen name='Sair' component={Reclame} options={{
                 ...setOptions({
                     title: 'Sair',
-                    tabBarIcon: () => <AntDesign name="logout" color="#f51" size={28} />
+                    tabBarIcon: () => <AntDesign name="logout" color="#686868" size={28} />
                 })
             }}
             />
@@ -57,7 +60,7 @@ export function Admin() {
 
 export function User() {
     return (
-        <Bottom.Navigator initialRouteName='HomeUser'>
+        <Bottom.Navigator  initialRouteName='HomeUser' >
             <Bottom.Screen name='HomeUser' component={UserRoute} options={{
                     ...setOptions({
                         title: 'Home',
@@ -75,7 +78,7 @@ export function User() {
             <Bottom.Screen name='LixeiraUser' component={Reclame} options={{
                     ...setOptions({
                         title: 'Lixeira',
-                        tabBarIcon: () => <EvilIcons name="trash" color="#686868" size={28} />
+                        tabBarIcon: () => <FontAwesome name="trash-o" color="#686868" size={28} />
                     })
                 }}
             />
@@ -83,7 +86,7 @@ export function User() {
             <Bottom.Screen name='Sair' component={Reclame} options={{
                     ...setOptions({
                         title: 'Sair',
-                        tabBarIcon: () => <AntDesign name="logout" color="#f51" size={28} />
+                        tabBarIcon: () => <AntDesign name="logout" color="#2B887E" size={28} />
                     })
                 }}
             />

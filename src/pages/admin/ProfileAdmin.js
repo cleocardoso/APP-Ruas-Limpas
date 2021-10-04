@@ -37,7 +37,7 @@ import 'moment/locale/pt-br';
 export function ProfileAdmin({ navigation }) {
     const { user } = useAuth()
     const data = moment().locale('pt-br').format('L');
-    const datac = moment(user.user.date_joined).locale('pt-br').format('L');
+    const datac = moment().locale('pt-br').format('L');
     return (
         <Container>
             <Content>
@@ -51,36 +51,34 @@ export function ProfileAdmin({ navigation }) {
                             </Col>
                             <Col>
                                 <Text>
-                                    Primeiro Nome: {user.user.first_name}
+                                    Sobrenome: {user.user.first_name}
                                 </Text>
                             </Col>
                         </Row>
                     </CardItem>
                     <CardItem>
                         <Row>
-                            <Col>
-                                <Text>
-                                    Último Nome: {user.user.last_name}
-                                </Text>
-                            </Col>
                             <Col>
                                 <Text>
                                     Email: {user.user.email}
                                 </Text>
                             </Col>
+                            <Col>
+
+                            </Col>
                         </Row>
                     </CardItem>
                     <CardItem>
                         <Row>
                             <Col>
-                                <View style={{flexDirection: 'row'}}>
+                                <View style={{ flexDirection: 'row' }}>
                                     <Text>
-                                        Status 
+                                        Status
                                     </Text>
-                                    {user.user.is_active &&(
+                                    {user.user.is_active && (
                                         <Text style={[styles.ativo, styles.containerText]}>Ativo</Text>
                                     )}
-                                    {!user.user.is_active &&(
+                                    {!user.user.is_active && (
                                         <Text style={[styles.inativo, styles.containerText]}>Inativo</Text>
                                     )}
                                 </View>
@@ -113,8 +111,8 @@ const styles = StyleSheet.create({
     },
     inativo: {
         backgroundColor: '#bb2124',
-    },  
-    containerText:{
+    },
+    containerText: {
         padding: 5,
         marginLeft: 5,
         textAlign: 'center',
