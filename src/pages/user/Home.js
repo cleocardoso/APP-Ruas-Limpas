@@ -38,18 +38,12 @@ import TabsUser from '../../components/TabsUser';
 import FooterBottom from '../../components/FooterBottom';
 import ListItens from '../../components/List';
 import ListReclamacoes from '../../components/reclamacoes/ListReclamacoes';
+import ListReclamacoesUser from '../../components/reclamacoes/ListReclamacaoUser';
 
 export function Home({ navigation }) {
-  const { categorias, users, reclamacoes } = useAuth()
+  const { categorias, users, reclamacoes,minhaReclamacoes } = useAuth()
 
-  async function ListarUsuarios() {
-    navigation.navigate('ListarUsuarios')
-  }
-
-  async function ListarReclameAdm() {
-    navigation.navigate('ListarReclameAdm')
-  }
-  //const date = moment().locale('pt-br').format("L  H:mm ")
+  
 
   return (
 
@@ -59,55 +53,10 @@ export function Home({ navigation }) {
         <InfoHistoryUser />
         <TabsUser
           reclamacoes={
-            <ListReclamacoes data={reclamacoes} emptyMessage={"Sem Reclamaçoes"} />
+            <ListReclamacoesUser data={reclamacoes} emptyMessage={"Sem Reclamaçoes"} />
           }
-          categorias={
-            <ListItens
-              empty={<Card><Body><Text>Sem categorias</Text></Body></Card>}
-              data={categorias}
-              renderItem={({ item }) =>
-                <ListItem>
-                  <Left>
-                    <Text note>{item.nome}</Text>
-                  </Left>
-                  <Right>
-                    <Icon>
-                      <EvilIcons name="trash" color="#f51" size={28} />
-                    </Icon>
-                  </Right>
-                </ListItem>
-              }
-            />
-          }
-          usuarios={
-            <ListItens
-              empty={<Card><Body><Text>Sem usuarios</Text></Body></Card>}
-              data={users}
-              renderItem={({ item }) =>
-                <ListItem>
-                  <Left>
-                    <Thumbnail
-                      style={{ width: 50, height: 50 }}
-                      source={{
-                        uri: item.foto
-                          ? item.foto
-                          : 'https://www.globaltec.com.br/wp-content/uploads/2021/01/laptop-user-1-1179329.png',
-                      }}
-                    />
-                  </Left>
-                  <Body>
-                    <Text>{item.nome}</Text>
-                    <Text note>
-                      Sobrenome: <Text note>{item.sobreNome}</Text>
-                    </Text>
-                    <Text note>
-                      Cidade: <Text note>{item.cidade}</Text>
-                    </Text>
-                  </Body>
-                </ListItem>
-
-              }
-            />
+          Reclame={
+            <ListReclamacoesUser data={minhaReclamacoes} emptyMessage={"Sem Reclamaçoes"}/>
           }
           iconReclamacoes={
             <Octicons name="megaphone" size={20} color='#f5f5f5' />

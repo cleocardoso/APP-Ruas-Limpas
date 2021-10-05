@@ -17,6 +17,7 @@ function AuthProvider({ children }) {
     const [totalMes, setTotalMes] = useState({})
     const [totalMesreclamacao, setTotalMesreclamacao] = useState({})
     const [reclamacoes, setReclamacoes] = useState([])
+    const [minhaReclamacoes, setMinhaReclamacoes] = useState([])
     const [userLoading, setUserLoading] = useState(true);
     const [totalMesUser,setTotalMesreclamacaoUser] = useState({})
     //console.log("USER CONTEXT ", user)
@@ -99,6 +100,38 @@ function AuthProvider({ children }) {
                 setReclamacoes(data)
             })
     }
+     //para mostrar minhas reclamacoes
+     async function loadMinhaReclamacoes() {
+        /*try {
+          const retorno = await AsyncStorage.getItem(keyAsyncStorage);
+          const dadosReclamacoes = await JSON.parse(retorno)
+          console.log('loadData -> ', dadosReclamacoes);
+          setReclamacoes(dadosReclamacoes || []);
+        } catch (error) {
+          Alert.alert("Erro na leitura de dados!");
+        }*/
+        console.log(user)
+        api.get(`/api/solicitacoes/listaSolicitacoes/?id=${user.user.id}`).then(async (resp) => {
+          //console.log("REC ", resp.data)
+          const array = []
+          for (let rec of resp.data){
+            const {reclamacoes} = rec
+            const categorias = []
+            for (let c of reclamacoes.categorias){
+                const resp = await api.get(`/api/categorias/${c}/`)
+                if (resp.status === 200){
+                  categorias.push(resp.data)
+                }
+            }
+            rec.reclamacoes.categorias = categorias;
+            array.push(rec)
+          }
+          setMinhaReclamacoes(array)
+        }).catch((error) => {
+          console.log('error ', error)
+        })
+      }
+
     //para mostrar o total de usuarios por mes
     function loadTotalMes() {
         api.get('/api/usuarios/total_por_mes/')
@@ -144,11 +177,12 @@ function AuthProvider({ children }) {
         loadTotalreclamacoes()
         logout()
         loadUserStorageDate()
+        loadMinhaReclamacoes()
         
     }
 
     return (
-        <AuthContext.Provider value={{ user, totalMes, totalMesUser,totalMesreclamacao, categorias, reclamacoes, users, signIn, logout, loadTotalMes, loadTotalreclamacoes, loadUserStorageDate, setUserLoading, userLoading, saveCategoria, removeCategoria}}>
+        <AuthContext.Provider value={{ user, totalMes,minhaReclamacoes, totalMesUser,totalMesreclamacao, categorias, reclamacoes, users, signIn, logout, loadTotalMes, loadMinhaReclamacoes,loadTotalreclamacoes, loadUserStorageDate, setUserLoading, userLoading, saveCategoria, removeCategoria}}>
             {children}
         </AuthContext.Provider>
 

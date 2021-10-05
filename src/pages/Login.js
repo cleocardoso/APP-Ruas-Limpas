@@ -76,9 +76,11 @@ export function Login({ navigation }) {
           lottie2={require('../assets/lotties/loading-green.json')}
         />
       )}
-      <Image style={styles.imagem} source={require('../imgs/R.png')} />
+      
+      <Image style={styles.imagem} source={require('../imgs/logo1.png')} />
 
       <InputLogin
+        
         placeholder="E-mail"
         value={email.value}
         onChangeText={text => setEmail({ value: text, error: '' })}
@@ -105,6 +107,7 @@ export function Login({ navigation }) {
         onPress={() => navigation.navigate('Cadastro')}>
         <Text style={styles.text}>Registre-se</Text>
       </TouchableOpacity>
+      
     </View>
   );
 }
@@ -116,7 +119,8 @@ const styles = StyleSheet.create({
   imagem: {
     width: 250,
     height: 200,
-    top: -20,
+    top:-30
+   
   },
   Text: {
     fontSize: 20,
