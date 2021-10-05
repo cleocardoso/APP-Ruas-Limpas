@@ -7,7 +7,7 @@ import moment from 'moment';
 import 'moment/locale/pt-br';
 import SwitchComponent from '../Switch';
 
-export default function CardReclamacao({ item }) {
+export default function CardReclamacao({ item, onPress }) {
     const date = moment(item.data_reclamacao).locale('pt-br').format('L');
     return (
         <>
@@ -20,11 +20,14 @@ export default function CardReclamacao({ item }) {
                         <Text style={styles.text}>Rua: </Text><Text note>{item.rua}</Text>
                     </ListItem>
                     <ListItem noBorder>
+                        <Text style={styles.text}>Bairro: </Text><Text note>{item.bairro}</Text>
+                    </ListItem>
+                    <ListItem noBorder>
                         <Text style={styles.text}>Descrição: </Text><Text note>{item.descricao}</Text>
                     </ListItem>
                 </Left>
                 <Right style={{ right: 10 }}>
-                    <SwitchComponent onPress={item.onToggle}/>
+                    <SwitchComponent onToggle={onPress}/>
                 </Right>
             </Row>
             <Divider />

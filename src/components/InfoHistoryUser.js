@@ -20,14 +20,14 @@ import {
 import { useAuth } from '../context/Auth';
 
 export default function InfoHistoryUser(){
-  const { totalMes ,totalMesreclamacao } = useAuth()
+  const { totalMesUser } = useAuth()
   return (
     <View style={{ paddingLeft: 2, paddingRight: 2 }}>
           <Row>
             <Left>
               <Body>
                 <Text style={styles.textSecundary}>Registro de Reclamações </Text>
-                <Text style={styles.textSecundary}>No ultimo mês: {totalMesreclamacao.size}</Text>
+                <Text style={styles.textSecundary}>No ultimo mês: {totalMesUser.size}</Text>
               </Body>
             </Left>
             <Right>  

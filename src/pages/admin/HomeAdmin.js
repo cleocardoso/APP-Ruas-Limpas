@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { Alert, StyleSheet } from 'react-native';
 import { Divider } from 'react-native-paper';
 import {
   Container,
@@ -39,7 +39,7 @@ import ListItens from '../../components/List';
 import ListReclamacoes from '../../components/reclamacoes/ListReclamacoes';
 
 export function HomeAdmin({ navigation }) {
-  const { categorias, users, reclamacoes } = useAuth()
+  const { categorias, users, reclamacoes, removeCategoria} = useAuth()
 
   async function ListarUsuarios() {
     navigation.navigate('ListarUsuarios')
@@ -47,6 +47,10 @@ export function HomeAdmin({ navigation }) {
 
   async function ListarReclameAdm() {
     navigation.navigate('ListarReclameAdm')
+  }
+
+  function remove(item){
+    removeCategoria(item.id)
   }
   //const date = moment().locale('pt-br').format("L  H:mm ")
 
@@ -70,8 +74,8 @@ export function HomeAdmin({ navigation }) {
                     <Text note>{item.nome}</Text>
                   </Left>
                   <Right>
-                    <Icon>
-                      <EvilIcons name="trash" color="#2B887E" size={28} />
+                    <Icon onPress={() => remove(item)}>
+                      <EvilIcons name="trash" color="#f51" size={28} />
                     </Icon>
                   </Right>
                 </ListItem>
@@ -94,10 +98,10 @@ export function HomeAdmin({ navigation }) {
                       }}
                     />
                   </Left>
-                  <Body>
+                  <Body style={{ left:-80}}>
                     <Text>{item.nome}</Text>
                     <Text note>
-                      Sobre Nome: <Text note>{item.sobreNome}</Text>
+                      Sobrenome: <Text note>{item.sobreNome}</Text>
                     </Text>
                     <Text note>
                       Cidade: <Text note>{item.cidade}</Text>

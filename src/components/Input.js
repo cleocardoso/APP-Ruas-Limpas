@@ -3,11 +3,13 @@ import React from 'react';
 import { StyleSheet, View, TextInput } from 'react-native';
 
 
-export function InputText({ placeholder, onPress, onChangeText, errors, ...rest }) {
+export function InputText({ placeholder, styleContainer, styleInput, onPress, onChangeText, errors, ...rest }) {
+  
+
   return (
     <>
-      <Item rounded style={styles.container}>
-        <Input style={styles.inputText} placeholder={placeholder}
+      <Item rounded style={styleContainer ? styleContainer : styles.container}>
+        <Input style={styleInput ? styleInput : styles.inputText} placeholder={placeholder}
           {...rest}
           onChangeText={onChangeText}
         />

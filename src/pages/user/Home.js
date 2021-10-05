@@ -27,9 +27,10 @@ import {
 import { useAuth } from '../../context/Auth'
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Feather from 'react-native-vector-icons/Feather';
-import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import EvilIcons from 'react-native-vector-icons/EvilIcons'
+import Feather from 'react-native-vector-icons/Feather';
+import Octicons from 'react-native-vector-icons/Octicons';
 
 import InfoUser from '../../components/InfoUser';
 import InfoHistoryUser from '../../components/InfoHistoryUser';
@@ -108,13 +109,13 @@ export function Home({ navigation }) {
               }
             />
           }
-          iconUsuarios={
-            <FontAwesome name="users" size={20} color='#f5f5f5' />
-          }
-          iconCategorias={
-            <FontAwesome name="list" size={20} color='#f5f5f5' />
-          }
           iconReclamacoes={
+            <Octicons name="megaphone" size={20} color='#f5f5f5' />
+          }
+          iconReclame={
+            <AntDesign name="exclamationcircleo" size={20} color='#f5f5f5' />
+          }
+          iconListReclamacoes={
             <FontAwesome name="list" size={20} color='#f5f5f5' />
           }
         />

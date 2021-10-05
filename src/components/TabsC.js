@@ -22,6 +22,8 @@ import {
 } from 'native-base';
 
 import AddButton from './AddButton';
+import FormCategoria from './modals/categoria/FormCategoria';
+import { useAuth } from '../context/Auth';
 
 export default function TabsC({
   iconCategorias,
@@ -31,8 +33,12 @@ export default function TabsC({
   usuarios,
   reclamacoes,
 }) {
+  const [click, setClick] = useState(false)
+  const {saveCategoria} = useAuth()
+
   return (
     <View style={{ top: 8, height: '85%' }}>
+      <FormCategoria onPress={saveCategoria} onClose={() => setClick(false)} visible={click} />
       <Tabs>
         <Tab
           tabStyle={{ backgroundColor: '#2B887E'}}
@@ -47,7 +53,7 @@ export default function TabsC({
           }>
           <View style={{height: Dimensions.get('window').height / 1.6}}>
             {categorias}
-            <AddButton />
+            <AddButton onPress={() => setClick(true)}/>
           </View>
         </Tab>
         <Tab

@@ -19,9 +19,10 @@ import {
 } from 'native-base';
 import moment from 'moment';
 import 'moment/locale/pt-br';
-
+import { useAuth } from '../context/Auth';
 
 export default function InfoUser() {
+  const {user} = useAuth()
   const data = moment().locale('pt-br').format('L');
   const hora = moment().locale('pt-br').format('H:mm');
   return (
@@ -36,7 +37,7 @@ export default function InfoUser() {
               }}
             />
             <Body>
-              <Text>Olá Usuario</Text>
+              <Text>Olá usuario</Text>
             </Body>
           </Row>
         </Left>

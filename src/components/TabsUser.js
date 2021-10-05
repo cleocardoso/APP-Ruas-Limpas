@@ -24,10 +24,10 @@ import {
 import AddButton from './AddButton';
 
 export default function TabsUser({
-  iconCategorias,
   categorias,
-  iconUsuarios,
+  iconReclame,
   iconReclamacoes,
+  iconListReclamacoes,
   usuarios,
   reclamacoes,
 }) {
@@ -40,8 +40,8 @@ export default function TabsUser({
           heading={
             <TabHeading style={{ backgroundColor: '#2B887E' }}>
               <>
-                {iconCategorias}
-                <Text style={styles.text}>    Minhas Reclamações</Text>
+                {iconListReclamacoes}
+                <Text style={styles.text}>Minhas Reclamações</Text>
               </>
             </TabHeading>
           }>
@@ -57,8 +57,8 @@ export default function TabsUser({
           heading={
             <TabHeading style={{ backgroundColor: '#2B887E' }}>
               <>
-                {iconUsuarios}
-                <Text style={styles.text}>    Registrar Reclamações</Text>
+                {iconReclamacoes}
+                <Text style={styles.text}>Reclame</Text>
               </>
             </TabHeading>
           }>
@@ -70,7 +70,7 @@ export default function TabsUser({
           heading={
             <TabHeading style={{ backgroundColor: '#2B887E' }}>
               <>
-                {iconReclamacoes}
+                {iconReclame}
                 <Text style={styles.text}>Reclamações</Text>
               </>
             </TabHeading>
