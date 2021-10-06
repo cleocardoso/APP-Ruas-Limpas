@@ -11,7 +11,7 @@ import { Body, CheckBox, Container, Content, Form, Item, ListItem, Textarea } fr
 import { TextArea } from '../../components/TextArea';
 
 export function Reclame() {
-
+  const {setAlertStatus} = useAuth()
   const keyAsyncStorage = "@RuasLimpas:reclamacoes";
   //console.log("Reclame Aqui...")
 
@@ -111,6 +111,13 @@ export function Reclame() {
       await AsyncStorage.setItem(keyAsyncStorage, JSON.stringify(vetData));
     } catch (error) {
       Alert.alert("Erro ao salvar Reclamação");
+      setAlertStatus({
+        visible: true,
+        error: true,
+        message: 'Erro ao salvar Reclamação!'
+      })
+
+      
     }
     Keyboard.dismiss();
     setRua("");
@@ -120,7 +127,18 @@ export function Reclame() {
     console.log(data)
     console.log(reclamacoes)
 
-    Alert.alert("Enviada com sucesso!");
+    setAlertStatus({
+      visible: true,
+      success: true,
+      message: 'Enviado com sucesso!'
+    })
+
+    const time = setTimeout(()=>{
+      setAlertStatus({
+        visible: false,
+      })
+      clearTimeout(time)
+    }, 3000)
   }
 
   async function loadData() {

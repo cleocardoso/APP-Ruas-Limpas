@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, TouchableOpacity, Image, View, Alert, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, Image, View, Alert, ActivityIndicator, StatusBar } from 'react-native';
 import { InputLogin } from '../components/InputLogin';
 import { Input } from '../components/Input';
 import GlobalStyles from '../styles/GlobalStyles';
@@ -10,7 +10,7 @@ import { senhaValidacao } from '../validacao/senhaValidacao';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useAuth } from '../context/Auth';
 import Loading from '../components/modals/Loading';
-import { Button } from 'native-base';
+import { Body, Button, Container, Content, Footer, FooterTab, Header, Left, Right, Row } from 'native-base';
 
 export function Login({ navigation }) {
   const keyAsyncStorage = "@RuasLimpas:cadastrando";
@@ -71,7 +71,8 @@ export function Login({ navigation }) {
   }, [])
 
   return (
-    <View style={GlobalStyles.screenContainer}>
+    <>
+      {/*<View style={GlobalStyles.screenContainer}>
       {userLoading && (
         <Loading lottie={require('../assets/lotties/loading-page.json')}
           lottie2={require('../assets/lotties/loading-green.json')}
@@ -101,26 +102,71 @@ export function Login({ navigation }) {
       />
       <View style={styles.entrar}>
         <MainButton title="Entrar" visible={loading} onPress={handleLogin} />
-      </View>
-      <View style={{ flexDirection: 'row' }}>
-        <View style={{ left: 10 }}>
-          <Text style={styles.text2}> Não tem uma conta? </Text>
-        </View>
-        <View style={{right: 10}}>
-          <Button transparent onPress={() => navigation.navigate('Cadastro')}>
-            <Text style={styles.text}>Registre-se</Text>
-          </Button>
-        </View>
+        <Row>
+          <Left>
+            <Text style={styles.text2}> Não tem uma conta? </Text>
+          </Left>
+          <Right>
+            <Button transparent onPress={() => navigation.navigate('Cadastro')}>
+              <Text style={styles.text}>Registre-se</Text>
+            </Button>
+          </Right>
+        </Row>
       </View>
 
-      {/*<TouchableOpacity
+      <TouchableOpacity
         style={styles.button}
         onPress={() => console.log("CADASTRO...")}>
         <Text style={styles.text}>Registre-se</Text>
-      </TouchableOpacity>*/}
+      </TouchableOpacity>
 
 
-    </View>
+      </View>*/}
+      <Container>
+        <Content style={{ marginTop: 90 }}>
+          {userLoading && (
+            <Loading lottie={require('../assets/lotties/loading-page.json')}
+              lottie2={require('../assets/lotties/loading-green.json')}
+            />
+          )}
+          <Body>
+            <Image style={styles.imagem} source={require('../imgs/logo1.png')} />
+            <InputLogin
+
+              placeholder="E-mail"
+              value={email.value}
+              onChangeText={text => setEmail({ value: text, error: '' })}
+              error={!!email.error}
+              errorText={email.error}
+              textContentType="emailAddress"
+              keyboardType="email-address"
+            />
+
+            <InputLogin
+              placeholder="Senha"
+              value={senha.value}
+              onChangeText={text => setSenha({ value: text, error: '' })}
+              error={!!senha.error}
+              errorText={senha.error}
+              secureTextEntry={true}
+            />
+            <MainButton title="Entrar" visible={loading} onPress={handleLogin} />
+          </Body>
+          <View style={{marginTop: 18}}/>
+          <FooterTab style={{ backgroundColor: 'transparent' }}>
+            <Row>
+              <Body>
+                <Text style={styles.text2}> Não tem uma conta? </Text>
+                <Button transparent onPress={() => navigation.navigate('Cadastro')}>
+                  <Text style={styles.text}>Registre-se</Text>
+                </Button>
+              </Body>
+            </Row>
+          </FooterTab>
+          <View style={{marginTop: 10}}/>
+        </Content>
+      </Container>
+    </>
   );
 }
 
@@ -131,8 +177,6 @@ const styles = StyleSheet.create({
   imagem: {
     width: 250,
     height: 200,
-    top: -30
-
   },
   Text: {
     fontSize: 20,
@@ -159,30 +203,24 @@ const styles = StyleSheet.create({
     alignContent: 'center',
   },
   text: {
+    flex: 1,
     fontSize: 19,
     fontWeight: 'bold',
     color: '#2B887E',
     textAlign: 'center',
-    left: 90,
-    top: 95
   },
   text1: {
     fontSize: 17,
     fontWeight: 'bold',
     color: '#5CC6BA',
     textAlign: 'center',
-    top: -95,
-    left: -10,
-
   },
   text2: {
+    flex: 1,
     fontSize: 17,
     fontWeight: 'bold',
     color: '#C0C0C0',
     textAlign: 'center',
-    top: 80,
-    left: -60,
-
   },
   entrar: {
     left: -5,

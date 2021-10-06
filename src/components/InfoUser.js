@@ -21,12 +21,35 @@ import moment from 'moment';
 import 'moment/locale/pt-br';
 import { useAuth } from '../context/Auth';
 
+function getUltimoAcesso(user) {
+  if (user?.is_admin) {
+    const value = user?.user?.last_login
+    if (value != null){
+      return {
+        data: moment(value).locale('pt-br').format('L'),
+        hora: moment(value).locale('pt-br').format('H:mm')
+      }
+    }
+    return null
+  }
+  const value = user?.user?.data_ultimo_acesso;
+  if (value != null){
+    return {
+      data: moment(value).locale('pt-br').format('L'),
+      hora: moment(value).locale('pt-br').format('H:mm')
+    }
+  }
+  return null
+}
+
 export default function InfoUser() {
-  const {user} = useAuth()
-  const data = moment().locale('pt-br').format('L');
-  const hora = moment().locale('pt-br').format('H:mm');
+  const { user } = useAuth()
+
+  const ultimoLogin = getUltimoAcesso(user)
+  console.log(ultimoLogin)
+
   return (
-    <View style={{top: 10}}>
+    <View style={{ top: 10 }}>
       <Row>
         <Left>
           <Row>
@@ -44,7 +67,9 @@ export default function InfoUser() {
         <Right style={{ top: 20 }}>
           <Body>
             <Text style={styles.text}>Ultimo acesso:</Text>
-            <Text style={styles.text}>{data} ás {hora}min</Text>
+            {ultimoLogin != null &&(
+              <Text style={styles.text}>{ultimoLogin.data} ás {ultimoLogin.hora}min</Text>
+            )}
           </Body>
         </Right>
       </Row>

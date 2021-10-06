@@ -4,7 +4,7 @@ import { StyleSheet, View, TextInput } from 'react-native';
 
 
 export function InputText({ placeholder, styleContainer, styleInput, onPress, onChangeText, errors, ...rest }) {
-  
+
 
   return (
     <>
@@ -14,7 +14,7 @@ export function InputText({ placeholder, styleContainer, styleInput, onPress, on
           onChangeText={onChangeText}
         />
       </Item>
-      <View style={{flex: 1, left: 10}}>
+      <View style={{ flex: 1, left: 10 }}>
         {errors && (
           errors
         )}

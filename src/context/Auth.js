@@ -7,6 +7,7 @@ import React, {
 import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../services/Api'
+import AlertConfirm from '../components/modals/AlertConfirm';
 const AuthContext = createContext({});
 
 function AuthProvider({ children }) {
@@ -19,36 +20,85 @@ function AuthProvider({ children }) {
     const [reclamacoes, setReclamacoes] = useState([])
     const [minhaReclamacoes, setMinhaReclamacoes] = useState([])
     const [userLoading, setUserLoading] = useState(true);
-    const [totalMesUser,setTotalMesreclamacaoUser] = useState({})
+    const [alertStatus, setAlertStatus] = useState({
+        visible: false,
+        error: false,
+        success: false,
+        warning: false,
+        info: false,
+        titleAlert: '',
+        message: '',
+        header: '',
+        showButton: false,
+        onConfirm: () =>{},
+        onCancel: ()=>{},
+    });
+    const [totalMesUser, setTotalMesreclamacaoUser] = useState({})
     //console.log("USER CONTEXT ", user)
 
     const userStorageKey = '@ifrndo:user';
 
-    function saveCategoria(value, functionAction){
+    function saveCategoria(value, functionAction) {
         const params = new URLSearchParams();
         params.append('nome', value);
         api.post('/api/categorias/', {
             nome: value
         })
-        .then((resp)=>{
-            console.log(resp)
-            functionAction(resp) 
-        })
-        .catch((error) =>{
-            console.log('ERROR ', error)
-            functionAction({
-                status: 500
+            .then((resp) => {
+                setAlertStatus({
+                    visible: true,
+                    success: true,
+                    message: 'Categoria salva com Sucesso!'
+                })
             })
-        })
+            .catch((error) => {
+                setAlertStatus({
+                    visible: true,
+                    error: true,
+                    message: 'Não foi possível salvar!'
+                })
+            })
     }
 
-    function removeCategoria(value){
-        api.delete(`/api/categorias/deletarCategoria/?id=${value}`)
-        .then((resp)=>{
-            /////Alert("Removida com sucesso")
-        })
-        .catch((error) =>{
-            //Alert("Erro ao remover")
+    function removeCategoria(value, functionAction) {
+        console.log(value)
+        setAlertStatus({
+            ...alertStatus,
+            visible: true,
+            titleAlert: "Aviso",
+            warning: true,
+            showButton: true,
+            message: 'Deseja Remover a categoria?',
+            onConfirm: () => {
+                api.delete(`/api/categorias/deletarCategoria/?id=${value}`)
+                    .then((resp) => {
+                        setAlertStatus({
+                            visible: true,
+                            success: true,
+                            message: 'Categoria removida com Sucesso!'
+                        })
+                    })
+                    .catch((error) => {
+                        setAlertStatus({
+                            visible: true,
+                            error: true,
+                            message: 'Não foi possível remover!'
+                        })
+                    })
+                const time = setTimeout(()=>{
+                    setAlertStatus({
+                        ...alertStatus,
+                        visible: false,
+                    })
+                    clearTimeout(time)
+                }, 3000)
+            },
+            onCancel: ()=>{
+                setAlertStatus({
+                    ...alertStatus,
+                    visible: false,
+                })
+            }
         })
     }
 
@@ -63,7 +113,7 @@ function AuthProvider({ children }) {
                 setUser(userL)
                 if (userL?.is_admin) {
                     loadAdmin()
-                } else 
+                } else
                     loadUser(userL)
                 functionAction(userL)
                 await AsyncStorage.setItem(userStorageKey, JSON.stringify(userL));
@@ -77,17 +127,17 @@ function AuthProvider({ children }) {
         const params = new URLSearchParams();
         params.append('id', user?.user?.id);
         api.post(`/api/usuarios/logout/`, params)
-        .then(async (resp) =>{
-            setUser({});
-            await AsyncStorage.removeItem(userStorageKey);
-            functionAction(resp)
-        })
-        .catch(()=>{
-            functionAction({
-                status: 500
+            .then(async (resp) => {
+                setUser({});
+                await AsyncStorage.removeItem(userStorageKey);
+                functionAction(resp)
             })
-        })
-        
+            .catch(() => {
+                functionAction({
+                    status: 500
+                })
+            })
+
     }
 
     function loadCategorias() {
@@ -113,8 +163,8 @@ function AuthProvider({ children }) {
                 setReclamacoes(data)
             })
     }
-     //para mostrar minhas reclamacoes
-     function loadMinhaReclamacoes(user) {
+    //para mostrar minhas reclamacoes
+    function loadMinhaReclamacoes(user) {
         /*try {
           const retorno = await AsyncStorage.getItem(keyAsyncStorage);
           const dadosReclamacoes = await JSON.parse(retorno)
@@ -124,31 +174,31 @@ function AuthProvider({ children }) {
           Alert.alert("Erro na leitura de dados!");
         }*/
         console.log(user)
-        if (user != null){
-            if (Object.keys(user).length > 0){ 
+        if (user != null) {
+            if (Object.keys(user).length > 0) {
                 api.get(`/api/solicitacoes/listaSolicitacoes/?id=${user.user.id}`).then(async (resp) => {
                     //console.log("REC ", resp.data)
                     const array = []
-                    for (let rec of resp.data){
-                      const {reclamacoes} = rec
-                      const categorias = []
-                      for (let c of reclamacoes.categorias){
-                          const resp = await api.get(`/api/categorias/${c}/`)
-                          if (resp.status === 200){
-                            categorias.push(resp.data)
-                          }
-                      }
-                      rec.reclamacoes.categorias = categorias;
-                      array.push(rec)
+                    for (let rec of resp.data) {
+                        const { reclamacoes } = rec
+                        const categorias = []
+                        for (let c of reclamacoes.categorias) {
+                            const resp = await api.get(`/api/categorias/${c}/`)
+                            if (resp.status === 200) {
+                                categorias.push(resp.data)
+                            }
+                        }
+                        rec.reclamacoes.categorias = categorias;
+                        array.push(rec)
                     }
                     setMinhaReclamacoes(array)
-                  }).catch((error) => {
+                }).catch((error) => {
                     console.log('error ', error)
-                  })
+                })
             }
 
         }
-      }
+    }
 
     //para mostrar o total de usuarios por mes
     function loadTotalMes() {
@@ -161,15 +211,44 @@ function AuthProvider({ children }) {
 
     }
 
-    function deleteReclamacao(id){
-        api.delete('/api/reclamacoes/deletarReclamacoes/?id='+id+"&idUser="+user?.user?.id)
-        .then(()=>{
-            //Alert("Removido com Sucesso!")
-            console.log('Removido com Sucesso!')
-        })
-        .catch(()=>{
-            console.log('Erro ao tentar remover')
-            //Alert("Erro ao tentar remover")
+    function deleteReclamacao(id) {
+        setAlertStatus({
+            ...alertStatus,
+            visible: true,
+            warning: true,
+            showButton: true,
+            message: 'Deseja Remover a reclamação?',
+            onConfirm: () => {
+                api.delete('/api/reclamacoes/deletarReclamacoes/?id=' + id + "&idUser=" + user?.user?.id)
+                    .then(() => {
+                        setAlertStatus({
+                            visible: true,
+                            success: true,
+                            message: 'Reclamação removida com sucesso!'
+                        })
+                    })
+                    .catch(() => {
+                        setAlertStatus({
+                            visible: true,
+                            error: true,
+                            message: 'Não foi possível remover!'
+                        })
+                    })
+
+                    const time = setTimeout(()=>{
+                        setAlertStatus({
+                            ...alertStatus,
+                            visible: false,
+                        })
+                        clearTimeout(time)
+                    }, 3000)
+            },
+            onCancel: ()=>{
+                setAlertStatus({
+                    ...alertStatus,
+                    visible: false,
+                })
+            }
         })
     }
 
@@ -194,15 +273,15 @@ function AuthProvider({ children }) {
                 setUser(user);
                 if (user?.is_admin) {
                     loadAdmin()
-                } else 
+                } else
                     loadUser(user)
-                
+
             })
         //logout()
 
     }
 
-    function loadUser(user){
+    function loadUser(user) {
         loadMinhaReclamacoes(user)
         loadReclamacoes()
     }
@@ -215,13 +294,25 @@ function AuthProvider({ children }) {
         loadTotalreclamacoes()
         //logout()
         //loadUserStorageDate()
-        
-        
+
+
     }
 
     return (
-        <AuthContext.Provider value={{ user, totalMes,minhaReclamacoes, deleteReclamacao, totalMesUser,totalMesreclamacao, categorias, reclamacoes, users, signIn, logout, loadTotalMes, loadMinhaReclamacoes,loadTotalreclamacoes, loadUserStorageDate, setUserLoading, userLoading, saveCategoria, removeCategoria}}>
+        <AuthContext.Provider value={{ user, totalMes, minhaReclamacoes, setAlertStatus, deleteReclamacao, alertStatus, totalMesUser, totalMesreclamacao, categorias, reclamacoes, users, signIn, logout, loadTotalMes, loadMinhaReclamacoes, loadTotalreclamacoes, loadUserStorageDate, setUserLoading, userLoading, saveCategoria, removeCategoria }}>
+            <>
+            <AlertConfirm error={alertStatus.error} success={alertStatus.success}
+                warning={alertStatus.warning}
+                info={alertStatus.info}
+                header={alertStatus.header}
+                message={alertStatus.message}
+                onCancel={alertStatus.onCancel}
+                onConfirm={alertStatus.onConfirm}
+                visible={alertStatus.visible}
+                showButton={alertStatus.showButton}
+            />
             {children}
+            </>
         </AuthContext.Provider>
 
     )

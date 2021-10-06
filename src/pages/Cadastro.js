@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, Image, Alert, View, Keyboard, ScrollView, TouchableOpacity } from 'react-native';
-import { Input } from '../components/Input';
+import { InputText } from '../components/Input';
 import GlobalStyles from '../styles/GlobalStyles';
 import { MainButton } from '../components/MainButton';
 import api from '../services/Api'
@@ -10,6 +10,7 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useFormik } from 'formik'
 import * as yup from 'yup'
+import { Container, Content } from 'native-base';
 
 export function Cadastro({ navigation }) {
     const keyAsyncStorage = "@RuasLimpas:cadastrando";
@@ -114,49 +115,42 @@ export function Cadastro({ navigation }) {
     }, []);
 
     return (
-        < View style={GlobalStyles.screenContainer2} >
+        <Container>
+            <Content>
+                <InputText placeholder="Nome" value={formik.values.user} errors={
+                    formik.touched.user && formik.errors.user && (
+                        <Text style={styles.error}>{formik.errors.user}</Text>
+                    )
 
-            <ScrollView>
-                <View style={styles.container}>
-                   
-                        <Input placeholder="Nome" value={formik.values.user} errors={
-                            formik.touched.user && formik.errors.user && (
-                                <Text style={styles.error}>{formik.errors.user}</Text>
-                            )
+                } onChangeText={formik.handleChange('user')} />
 
-                        } onChangeText={formik.handleChange('user')} />
+                <InputText placeholder="Sobrenome" value={formik.values.sobreNome} errors={
+                    formik.touched.sobreNome && formik.errors.sobreNome && (
+                        <Text style={styles.error}>{formik.errors.sobreNome}</Text>
+                    )
+                } onChangeText={formik.handleChange('sobreNome')} />
 
-                        <Input placeholder="Sobrenome" value={formik.values.sobreNome} errors={
-                            formik.touched.sobreNome && formik.errors.sobreNome && (
-                                <Text style={styles.error}>{formik.errors.sobreNome}</Text>
-                            )
-                        } onChangeText={formik.handleChange('sobreNome')} />
+                <InputText placeholder="Cidade" value={formik.values.cidade} errors={
+                    formik.touched.cidade && formik.errors.cidade && (
+                        <Text style={styles.error}>{formik.errors.cidade}</Text>
+                    )
+                } onChangeText={formik.handleChange('cidade')} />
 
-                        <Input placeholder="Cidade" value={formik.values.cidade} errors={
-                            formik.touched.cidade && formik.errors.cidade && (
-                                <Text style={styles.error}>{formik.errors.cidade}</Text>
-                            )
-                        } onChangeText={formik.handleChange('cidade')} />
+                <InputText placeholder="E-mail" value={formik.values.email} errors={
+                    formik.touched.email && formik.errors.email && (
+                        <Text style={styles.error}>{formik.errors.email}</Text>
+                    )} onChangeText={formik.handleChange('email')} />
 
-                        <Input placeholder="E-mail" value={formik.values.email} errors={
-                            formik.touched.email && formik.errors.email && (
-                                <Text style={styles.error}>{formik.errors.email}</Text>
-                            )} onChangeText={formik.handleChange('email')} />
-
-                        <Input placeholder="Senha" secureTextEntry={true} value={formik.values.senha} errors={
-                            formik.touched.senha && formik.errors.senha && (
-                                <Text style={styles.error}>{formik.errors.senha}</Text>
-                            )} onChangeText={formik.handleChange('senha')} />
-                    
-                   
-                </View>
+                <InputText placeholder="Senha" secureTextEntry={true} value={formik.values.senha} errors={
+                    formik.touched.senha && formik.errors.senha && (
+                        <Text style={styles.error}>{formik.errors.senha}</Text>
+                    )} onChangeText={formik.handleChange('senha')} />
                 <View style={styles.view_btn}>
-                <MainButton title="Salvar" onPress={formik.handleSubmit} />
+                    <MainButton title="Salvar" onPress={formik.handleSubmit} />
                 </View>
-            </ScrollView>
-           
-
-        </View >
+                <View style={{marginTop: 10}}/>
+            </Content>
+        </Container>
 
     );
 }
@@ -211,17 +205,15 @@ const styles = StyleSheet.create({
     error: {
         fontSize: 15,
         color: 'red',
-        top: 36,
+        top: 5,
         height: -40,
-        left: -296
     },
 
     view_btn: {
-        left:12,
-        top: 60,
+        left: 12,
 
     },
-    
+
 
 
 

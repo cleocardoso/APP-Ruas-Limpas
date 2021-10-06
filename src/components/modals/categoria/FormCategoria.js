@@ -50,9 +50,9 @@ export default function FormCategoria({ visible, onClose, onPress}) {
                         <MainButton title={"Salve"} onPress={() => onPress(value, (resp)=>{
                             onClose();
                             if (resp.status !== 500){
-                                Alert("Salvo com Sucesso!")
+                                alert("Salvo com Sucesso!")
                             } else {
-                                Alert("Erro ao salvar. Tente novamente!")
+                                alert("Erro ao salvar. Tente novamente!")
                             }
                         })} />
                     </View>
