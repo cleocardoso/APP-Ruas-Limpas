@@ -39,6 +39,7 @@ import FooterBottom from '../../components/FooterBottom';
 import ListItens from '../../components/List';
 import ListReclamacoes from '../../components/reclamacoes/ListReclamacoes';
 import ListReclamacoesUser from '../../components/reclamacoes/ListReclamacaoUser';
+import {Reclame} from '../../pages/reclame/Reclame'
 
 export function Home({ navigation }) {
   const { categorias, users, reclamacoes,minhaReclamacoes } = useAuth()
@@ -53,10 +54,13 @@ export function Home({ navigation }) {
         <InfoHistoryUser />
         <TabsUser
           reclamacoes={
-            <ListReclamacoesUser data={reclamacoes} emptyMessage={"Sem Reclamaçoes"} />
+            <ListReclamacoes data={reclamacoes} emptyMessage={"Sem Reclamaçoes"} />
+          }
+          minhaReclamacoes={
+            <ListReclamacoesUser data={minhaReclamacoes} emptyMessage={"Sem Reclamaçoes"}/>
           }
           Reclame={
-            <ListReclamacoesUser data={minhaReclamacoes} emptyMessage={"Sem Reclamaçoes"}/>
+            <Reclame />
           }
           iconReclamacoes={
             <Octicons name="megaphone" size={20} color='#f5f5f5' />

@@ -10,6 +10,8 @@ import UserRoute from '../user/UserRoute'
 import ProfileUserRoute from '../user/ProfileUser';
 import AdminRoute from '../admin/AdminRoute';
 import { color, style } from 'styled-system';
+import {useAuth} from '../../context/Auth'
+import { Text, View } from 'react-native';
 
 const Bottom = createBottomTabNavigator();
 
@@ -25,8 +27,11 @@ function setOptions({ title, tabBarIcon, headerShown}) {
 }
 
 export function Admin() {
+    const {logout} = useAuth()
     return (
-        <Bottom.Navigator initialRouteName='HomeAdmin'>
+        <Bottom.Navigator initialRouteName='HomeAdmin' screenOptions={({route, navigation}) => {
+            redirectLogout(route, navigation, logout)
+        }}>
             <Bottom.Screen name='HomeAdmin' component={AdminRoute} options={{
                 ...setOptions({
                     title: 'Home',
@@ -39,15 +44,15 @@ export function Admin() {
                     tabBarIcon: () => <AntDesign name="user" color="#686868" size={28} />
                 }),
             }} />
-            <Bottom.Screen name='LixeiraAdmin' component={Reclame} options={{
+            {/*<Bottom.Screen name='LixeiraAdmin' component={Reclame} options={{
                 ...setOptions({
                     title: 'Lixeira',
                     tabBarIcon: () => <FontAwesome name="trash-o" color="#686868" size={28} />
                 })
             }}
-            />
+        />*/} 
 
-            <Bottom.Screen name='Sair' component={Reclame} options={{
+            <Bottom.Screen name='Sair' component={Sair} options={{
                 ...setOptions({
                     title: 'Sair',
                     tabBarIcon: () => <AntDesign name="logout" color="#686868" size={28} />
@@ -58,9 +63,28 @@ export function Admin() {
     );
 }
 
-export function User() {
+export function Sair(){
     return (
-        <Bottom.Navigator  initialRouteName='HomeUser' >
+        <View>
+            <Text>Saindo...</Text>
+        </View>
+    )
+}
+
+function redirectLogout(route, navigation, logout){
+    if (route.name === 'Sair' && navigation.isFocused()){
+        logout(() => {
+            navigation.navigate('login')
+        })
+    }
+}
+
+export function User() {
+    const {logout} = useAuth()
+    return (
+        <Bottom.Navigator  initialRouteName='HomeUser' screenOptions={({route, navigation}) => {
+            redirectLogout(route, navigation, logout)
+        }}>
             <Bottom.Screen name='HomeUser' component={UserRoute} options={{
                     ...setOptions({
                         title: 'Home',
@@ -75,15 +99,15 @@ export function User() {
                     })
                 }} 
             />
-            <Bottom.Screen name='LixeiraUser' component={Reclame} options={{
+            {/*<Bottom.Screen name='LixeiraUser' component={Reclame} options={{
                     ...setOptions({
                         title: 'Lixeira',
                         tabBarIcon: () => <FontAwesome name="trash-o" color="#686868" size={28} />
                     })
                 }}
-            />
+            />*/}
 
-            <Bottom.Screen name='Sair' component={Reclame} options={{
+            <Bottom.Screen name='Sair' component={Sair} options={{
                     ...setOptions({
                         title: 'Sair',
                         tabBarIcon: () => <AntDesign name="logout" color="#2B887E" size={28} />

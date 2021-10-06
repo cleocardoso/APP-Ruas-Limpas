@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, FlatList} from 'react-native';
 import { Divider } from 'react-native-paper';
 import {
@@ -23,11 +23,19 @@ import {
   Button
 } from 'native-base';
 
-export default function ListItens({ data, renderItem, empty }) {
- 
+export default function ListItens({ data, renderItem, empty}) {
+  const [refreshing, setRefreshing] = useState(false)
+
+  function onRefresh(){
+    setRefreshing(true)
+    setTimeout(() =>{
+      setRefreshing(false)
+    }, 5000)
+  }
+
   return (
     <View>
-      <FlatList ListEmptyComponent={empty} data={data} renderItem={(item) => renderItem(item)} />
+      <FlatList refreshing={refreshing} onRefresh={onRefresh} ListEmptyComponent={empty} data={data} renderItem={(item) => renderItem(item)} />
     </View>
   );
 }

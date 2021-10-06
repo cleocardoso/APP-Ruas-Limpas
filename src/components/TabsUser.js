@@ -24,18 +24,18 @@ import {
 import AddButton from './AddButton';
 
 export default function TabsUser({
-  categorias,
+  Reclame,
+  minhaReclamacoes,
   iconReclame,
   iconReclamacoes,
   iconListReclamacoes,
-  usuarios,
   reclamacoes,
 }) {
   return (
     <View style={{ top: 8, height: '85%' }}>
       <Tabs>
         <Tab
-          tabStyle={{ backgroundColor: '#2B887E'}}
+          tabStyle={{ backgroundColor: '#2B887E' }}
           activeTabStyle={{ backgroundColor: '#2B887E' }}
           heading={
             <TabHeading style={{ backgroundColor: '#2B887E' }}>
@@ -45,10 +45,7 @@ export default function TabsUser({
               </>
             </TabHeading>
           }>
-          <View style={{height: Dimensions.get('window').height / 1.6}}>
-            {categorias}
-            <AddButton />
-          </View>
+          {minhaReclamacoes}
         </Tab>
         <Tab
           tabStyle={{ backgroundColor: '#2B887E' }}
@@ -57,12 +54,12 @@ export default function TabsUser({
           heading={
             <TabHeading style={{ backgroundColor: '#2B887E' }}>
               <>
-                {iconReclamacoes}
+                {iconReclame}
                 <Text style={styles.text}>Reclame</Text>
               </>
             </TabHeading>
           }>
-          {usuarios}
+          {Reclame}
         </Tab>
         <Tab
           tabStyle={{ backgroundColor: '#2B887E' }}
@@ -70,7 +67,7 @@ export default function TabsUser({
           heading={
             <TabHeading style={{ backgroundColor: '#2B887E' }}>
               <>
-                {iconReclame}
+                {iconReclamacoes}
                 <Text style={styles.text}>Reclamações</Text>
               </>
             </TabHeading>

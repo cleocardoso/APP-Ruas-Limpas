@@ -5,9 +5,11 @@ import Feather from 'react-native-vector-icons/FontAwesome'
 import { Divider } from "react-native-paper";
 import moment from 'moment';
 import 'moment/locale/pt-br';
-import SwitchComponent from '../Switch';
+
+import EvilIcons from 'react-native-vector-icons/EvilIcons'
 
 export default function CardReclamacaoUser({ item, onPress }) {
+    console.log(item)
     const date = moment(item.data_reclamacao).locale('pt-br').format('L');
     return (
         <>
@@ -17,13 +19,17 @@ export default function CardReclamacaoUser({ item, onPress }) {
             <Row>
                 <Left>
                     <ListItem noBorder>
-                        <Text style={styles.text}>Rua: </Text><Text note>{item.rua}</Text>
+                        <Text style={styles.text}>Rua: </Text><Text note>{item?.reclamacoes?.rua}</Text>
                     </ListItem>
                     <ListItem noBorder>
-                        <Text style={styles.text}>Descrição: </Text><Text note>{item.descricao}</Text>
+                        <Text style={styles.text}>Descrição: </Text><Text note>{item?.reclamacoes?.descricao}</Text>
                     </ListItem>
                 </Left>
-
+                <Right>
+                    <Icon onPress={onPress}>
+                      <EvilIcons name="trash" color="#f51" size={28} />
+                    </Icon>
+                  </Right>
             </Row>
             <Divider />
         </>

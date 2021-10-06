@@ -46,12 +46,12 @@ export function ProfileAdmin({ navigation }) {
                         <Row>
                             <Col>
                                 <Text>
-                                    Nome: {user.user.username}
+                                    Nome: {user?.user?.username}
                                 </Text>
                             </Col>
                             <Col>
                                 <Text>
-                                    Sobrenome: {user.user.first_name}
+                                    Sobrenome: {user?.user?.first_name}
                                 </Text>
                             </Col>
                         </Row>
@@ -60,7 +60,7 @@ export function ProfileAdmin({ navigation }) {
                         <Row>
                             <Col>
                                 <Text>
-                                    Email: {user.user.email}
+                                    Email: {user?.user?.email}
                                 </Text>
                             </Col>
                             <Col>
@@ -75,10 +75,10 @@ export function ProfileAdmin({ navigation }) {
                                     <Text>
                                         Status
                                     </Text>
-                                    {user.user.is_active && (
+                                    {user?.user?.is_active && (
                                         <Text style={[styles.ativo, styles.containerText]}>Ativo</Text>
                                     )}
-                                    {!user.user.is_active && (
+                                    {!user?.user?.is_active && (
                                         <Text style={[styles.inativo, styles.containerText]}>Inativo</Text>
                                     )}
                                 </View>

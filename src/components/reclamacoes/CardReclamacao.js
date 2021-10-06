@@ -26,9 +26,11 @@ export default function CardReclamacao({ item, onPress }) {
                         <Text style={styles.text}>Descrição: </Text><Text note>{item.descricao}</Text>
                     </ListItem>
                 </Left>
-                <Right style={{ right: 10 }}>
-                    <SwitchComponent onToggle={onPress}/>
-                </Right>
+                {onPress && (
+                    <Right style={{ right: 10 }}>
+                        <SwitchComponent onToggle={onPress} />
+                    </Right>
+                )}
             </Row>
             <Divider />
         </>

@@ -62,7 +62,7 @@ export function HomeAdmin({ navigation }) {
         <InfoHistory />
         <TabsC
           reclamacoes={
-            <ListReclamacoes data={reclamacoes} emptyMessage={"Sem Reclamaçoes"} />
+            <ListReclamacoes isSwitch data={reclamacoes} emptyMessage={"Sem Reclamaçoes"} />
           }
           categorias={
             <ListItens

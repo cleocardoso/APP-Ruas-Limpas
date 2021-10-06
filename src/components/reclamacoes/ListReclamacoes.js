@@ -6,7 +6,7 @@ import CardReclamacao from "./CardReclamacao";
 
 
 
-export default function ListReclamacoes({ data, emptyMessage }) {
+export default function ListReclamacoes({ data, emptyMessage, isSwitch }) {
 
     function onToggle(status, id) {
         console.log(status, id)
@@ -21,12 +21,19 @@ export default function ListReclamacoes({ data, emptyMessage }) {
             console.log("DEU ERRO!")
         })
     }
-    
+
 
     return (
         <ListItens
             renderItem={({ item }) =>
-                <CardReclamacao item={item} onPress={(status) => onToggle(status, item.id)} />
+                <>
+                    {isSwitch && (
+                        <CardReclamacao item={item} item={item} item={item} item={item} onPress={(status) => onToggle(status, item.id)} />
+                    )}
+                    {!isSwitch && (
+                        <CardReclamacao item={item} />
+                    )}
+                </>
             }
             data={data}
             empty={<Card><Body><Text>{emptyMessage}</Text></Body></Card>}

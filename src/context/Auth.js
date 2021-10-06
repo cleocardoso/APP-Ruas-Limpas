@@ -45,10 +45,10 @@ function AuthProvider({ children }) {
     function removeCategoria(value){
         api.delete(`/api/categorias/deletarCategoria/?id=${value}`)
         .then((resp)=>{
-            Alert("Removida com sucesso")
+            /////Alert("Removida com sucesso")
         })
         .catch((error) =>{
-            Alert("Erro ao remover")
+            //Alert("Erro ao remover")
         })
     }
 
@@ -63,7 +63,8 @@ function AuthProvider({ children }) {
                 setUser(userL)
                 if (userL?.is_admin) {
                     loadAdmin()
-                }
+                } else 
+                    loadUser(userL)
                 functionAction(userL)
                 await AsyncStorage.setItem(userStorageKey, JSON.stringify(userL));
             })
@@ -72,9 +73,21 @@ function AuthProvider({ children }) {
             })
     }
     //**Função para apagar usuário  */
-    async function logout() {
-        setUser({});
-        await AsyncStorage.removeItem(userStorageKey);
+    function logout(functionAction) {
+        const params = new URLSearchParams();
+        params.append('id', user?.user?.id);
+        api.post(`/api/usuarios/logout/`, params)
+        .then(async (resp) =>{
+            setUser({});
+            await AsyncStorage.removeItem(userStorageKey);
+            functionAction(resp)
+        })
+        .catch(()=>{
+            functionAction({
+                status: 500
+            })
+        })
+        
     }
 
     function loadCategorias() {
@@ -101,7 +114,7 @@ function AuthProvider({ children }) {
             })
     }
      //para mostrar minhas reclamacoes
-     async function loadMinhaReclamacoes() {
+     function loadMinhaReclamacoes(user) {
         /*try {
           const retorno = await AsyncStorage.getItem(keyAsyncStorage);
           const dadosReclamacoes = await JSON.parse(retorno)
@@ -111,25 +124,30 @@ function AuthProvider({ children }) {
           Alert.alert("Erro na leitura de dados!");
         }*/
         console.log(user)
-        api.get(`/api/solicitacoes/listaSolicitacoes/?id=${user.user.id}`).then(async (resp) => {
-          //console.log("REC ", resp.data)
-          const array = []
-          for (let rec of resp.data){
-            const {reclamacoes} = rec
-            const categorias = []
-            for (let c of reclamacoes.categorias){
-                const resp = await api.get(`/api/categorias/${c}/`)
-                if (resp.status === 200){
-                  categorias.push(resp.data)
-                }
+        if (user != null){
+            if (Object.keys(user).length > 0){ 
+                api.get(`/api/solicitacoes/listaSolicitacoes/?id=${user.user.id}`).then(async (resp) => {
+                    //console.log("REC ", resp.data)
+                    const array = []
+                    for (let rec of resp.data){
+                      const {reclamacoes} = rec
+                      const categorias = []
+                      for (let c of reclamacoes.categorias){
+                          const resp = await api.get(`/api/categorias/${c}/`)
+                          if (resp.status === 200){
+                            categorias.push(resp.data)
+                          }
+                      }
+                      rec.reclamacoes.categorias = categorias;
+                      array.push(rec)
+                    }
+                    setMinhaReclamacoes(array)
+                  }).catch((error) => {
+                    console.log('error ', error)
+                  })
             }
-            rec.reclamacoes.categorias = categorias;
-            array.push(rec)
-          }
-          setMinhaReclamacoes(array)
-        }).catch((error) => {
-          console.log('error ', error)
-        })
+
+        }
       }
 
     //para mostrar o total de usuarios por mes
@@ -142,6 +160,19 @@ function AuthProvider({ children }) {
             })
 
     }
+
+    function deleteReclamacao(id){
+        api.delete('/api/reclamacoes/deletarReclamacoes/?id='+id+"&idUser="+user?.user?.id)
+        .then(()=>{
+            //Alert("Removido com Sucesso!")
+            console.log('Removido com Sucesso!')
+        })
+        .catch(()=>{
+            console.log('Erro ao tentar remover')
+            //Alert("Erro ao tentar remover")
+        })
+    }
+
     //para mostrar o total de reclamacoes por mes
     function loadTotalreclamacoes() {
         api.get('/api/reclamacoes/total_por_mes/')
@@ -159,14 +190,21 @@ function AuthProvider({ children }) {
                 let user = {}
                 user = JSON.parse(resp)
                 // console.log(user)
-                if (user?.is_admin) {
-                    loadAdmin()
-                }
                 functionAction(user)
                 setUser(user);
+                if (user?.is_admin) {
+                    loadAdmin()
+                } else 
+                    loadUser(user)
+                
             })
         //logout()
 
+    }
+
+    function loadUser(user){
+        loadMinhaReclamacoes(user)
+        loadReclamacoes()
     }
 
     function loadAdmin() {
@@ -175,14 +213,14 @@ function AuthProvider({ children }) {
         loadReclamacoes()
         loadTotalMes()
         loadTotalreclamacoes()
-        logout()
-        loadUserStorageDate()
-        loadMinhaReclamacoes()
+        //logout()
+        //loadUserStorageDate()
+        
         
     }
 
     return (
-        <AuthContext.Provider value={{ user, totalMes,minhaReclamacoes, totalMesUser,totalMesreclamacao, categorias, reclamacoes, users, signIn, logout, loadTotalMes, loadMinhaReclamacoes,loadTotalreclamacoes, loadUserStorageDate, setUserLoading, userLoading, saveCategoria, removeCategoria}}>
+        <AuthContext.Provider value={{ user, totalMes,minhaReclamacoes, deleteReclamacao, totalMesUser,totalMesreclamacao, categorias, reclamacoes, users, signIn, logout, loadTotalMes, loadMinhaReclamacoes,loadTotalreclamacoes, loadUserStorageDate, setUserLoading, userLoading, saveCategoria, removeCategoria}}>
             {children}
         </AuthContext.Provider>
 

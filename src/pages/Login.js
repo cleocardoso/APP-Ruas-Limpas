@@ -10,6 +10,7 @@ import { senhaValidacao } from '../validacao/senhaValidacao';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useAuth } from '../context/Auth';
 import Loading from '../components/modals/Loading';
+import { Button } from 'native-base';
 
 export function Login({ navigation }) {
   const keyAsyncStorage = "@RuasLimpas:cadastrando";
@@ -18,9 +19,9 @@ export function Login({ navigation }) {
   const [loading, setLoading] = useState(false);
   const [senha, setSenha] = useState({ value: '', error: '' });
   const { user, signIn, loadUserStorageDate, userLoading, setUserLoading } = useAuth()
-
+  //navigation.navigate('Cadastro')
   function redirect(user) {
-    
+
     if (user != null) {
       if (Object.keys(user).length > 0) {
         if (user.is_admin) {
@@ -49,7 +50,7 @@ export function Login({ navigation }) {
         //console.log(user)
         setLoading(false)
         redirect(user)
-      }, (error) =>{
+      }, (error) => {
         Alert.alert("Erro na autenticação!");
         setLoading(false)
       })
@@ -76,11 +77,11 @@ export function Login({ navigation }) {
           lottie2={require('../assets/lotties/loading-green.json')}
         />
       )}
-      
+
       <Image style={styles.imagem} source={require('../imgs/logo1.png')} />
 
       <InputLogin
-        
+
         placeholder="E-mail"
         value={email.value}
         onChangeText={text => setEmail({ value: text, error: '' })}
@@ -101,13 +102,24 @@ export function Login({ navigation }) {
       <View style={styles.entrar}>
         <MainButton title="Entrar" visible={loading} onPress={handleLogin} />
       </View>
-      <Text style={styles.text2}> Não tem uma conta? </Text>
-      <TouchableOpacity
+      <View style={{ flexDirection: 'row' }}>
+        <View style={{ left: 10 }}>
+          <Text style={styles.text2}> Não tem uma conta? </Text>
+        </View>
+        <View style={{right: 10}}>
+          <Button transparent onPress={() => navigation.navigate('Cadastro')}>
+            <Text style={styles.text}>Registre-se</Text>
+          </Button>
+        </View>
+      </View>
+
+      {/*<TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('Cadastro')}>
+        onPress={() => console.log("CADASTRO...")}>
         <Text style={styles.text}>Registre-se</Text>
-      </TouchableOpacity>
-      
+      </TouchableOpacity>*/}
+
+
     </View>
   );
 }
@@ -119,8 +131,8 @@ const styles = StyleSheet.create({
   imagem: {
     width: 250,
     height: 200,
-    top:-30
-   
+    top: -30
+
   },
   Text: {
     fontSize: 20,
